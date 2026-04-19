@@ -1,0 +1,91 @@
+.card {
+  width: 100%;
+  max-width: 1000px;
+  min-height: 200px;
+  margin: auto;
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+
+  background: #efefef;
+  border: 5px solid #ffb411;
+  border-radius: 25px;
+
+  opacity: 0.95;
+}
+
+.image {
+  width: 144px;
+  height: 180px;
+  border-radius: 20px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
+  padding: 5px 0;
+  text-align: left;
+}
+
+.title {
+  font-family: Nunito, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #000;
+  margin: 0 0 12px 0;
+}
+
+.location {
+  font-family: Nunito, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+  margin: 0;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.badge {
+  padding: 10px 20px;
+  background: #f6f6f6;
+  border: 1px solid #ffb411;
+  border-radius: 25px;
+
+  font-family: Nunito, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #282828;
+
+  white-space: nowrap;
+}
+
+.price {
+  padding: 10px 20px;
+  background: #f6f6f6;
+  border: 1px solid #ffb411;
+  border-radius: 25px;
+
+  font-family: Nunito, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #282828;
+
+  white-space: nowrap;
+}

@@ -1,0 +1,323 @@
+.tour-booking-container {
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 64rem;
+  margin: 0 auto;
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .main-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.client-header {
+  color: #282828;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .client-header {
+    font-size: 1.125rem;
+  }
+}
+
+.tour-name-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid #3DD068;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.tour-name-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  color: #282828;
+  font-size: 1rem;
+}
+
+@media (min-width: 640px) {
+  .tour-name-text {
+    font-size: 1.125rem;
+  }
+}
+
+.photo-carousel {
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.desktop-photo-strip {
+  display: none;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 640px) {
+  .desktop-photo-strip {
+    display: flex;
+  }
+}
+
+.photo-thumb {
+  height: 11rem;
+  flex-shrink: 0;
+  border-radius: 18px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+@media (min-width: 768px) {
+  .photo-thumb {
+    height: 13rem;
+  }
+}
+
+.photo-thumb:hover {
+  opacity: 0.9;
+}
+
+.mobile-photo-view {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #e5e7eb;
+  aspect-ratio: 16 / 9;
+}
+
+@media (min-width: 640px) {
+  .mobile-photo-view {
+    display: none;
+  }
+}
+
+.mobile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 9999px;
+  padding: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+}
+
+.nav-button-left {
+  left: 0.5rem;
+}
+
+.nav-button-right {
+  right: 0.5rem;
+}
+
+.photo-dots {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.375rem;
+}
+
+.photo-dot {
+  height: 0.375rem;
+  border-radius: 9999px;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.photo-dot-active {
+  background-color: #3DD068;
+  width: 1.25rem;
+}
+
+.photo-dot-inactive {
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 0.375rem;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .info-row {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.info-text {
+  color: #282828;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+@media (min-width: 640px) {
+  .info-text {
+    font-size: 1.125rem;
+  }
+}
+
+.info-text-right {
+  text-align: right;
+}
+
+.info-value {
+  font-weight: 600;
+}
+
+.description-container {
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.description-text {
+  color: #282828;
+  font-size: 1rem;
+  line-height: 1.625;
+}
+
+@media (min-width: 640px) {
+  .description-text {
+    font-size: 1.125rem;
+  }
+}
+
+.price-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .price-row {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.price-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #FFB411;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.price-pill-left {
+  align-self: flex-start;
+}
+
+.price-pill-right {
+  align-self: flex-end;
+}
+
+@media (min-width: 640px) {
+  .price-pill-right {
+    align-self: auto;
+  }
+}
+
+.price-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  color: #282828;
+  font-size: 1rem;
+}
+
+@media (min-width: 640px) {
+  .price-text {
+    font-size: 1.125rem;
+  }
+}
+
+.cta-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.cta-button {
+  width: 100%;
+  max-width: 36rem;
+  border: 2px solid #3DD068;
+  border-radius: 9999px;
+  background-color: white;
+  padding: 1rem 2rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  color: #282828;
+  font-size: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+@media (min-width: 640px) {
+  .cta-button {
+    font-size: 1.25rem;
+  }
+}
+
+.cta-button:hover {
+  background-color: rgba(61, 208, 104, 0.05);
+}
+
+.footer {
+  background-color: #EFEFEF;
+  border-top: 2px solid rgba(255, 180, 17, 0.4);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  color: #888888;
+  font-weight: 500;
+}

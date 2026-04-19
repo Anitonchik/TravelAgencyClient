@@ -1,0 +1,97 @@
+.booking-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: #EFEFEF;
+  border: 3px solid #FFB411;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1.25rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .booking-card {
+    padding: 1.5rem;
+  }
+}
+
+.booking-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.booking-card-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: black;
+  line-height: 1.375;
+}
+
+@media (min-width: 640px) {
+  .booking-card-text {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .booking-card-text {
+    font-size: 1.125rem;
+  }
+}
+
+.booking-card-label {
+  color: #555555;
+  font-weight: normal;
+}
+
+.booking-card-status-wrapper {
+  flex-shrink: 0;
+}
+
+.booking-card-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .booking-card-status {
+    font-size: 1rem;
+  }
+}
+
+/* Status colors */
+.status-bg-confirmed {
+  background-color: #d6f0d6;
+}
+
+.status-text-confirmed {
+  color: #2e7d2e;
+}
+
+.status-bg-pending {
+  background-color: #fff3cc;
+}
+
+.status-text-pending {
+  color: #856900;
+}
+
+.status-bg-cancelled {
+  background-color: #fde0e0;
+}
+
+.status-text-cancelled {
+  color: #c0392b;
+}
