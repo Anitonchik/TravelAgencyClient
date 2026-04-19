@@ -12,12 +12,12 @@ export default function Header() {
             <rect width="36" height="36" rx="10" fill="#FFB411" />
             <path d="M8 26V14l10-6 10 6v12H22v-7h-8v7H8Z" fill="white" />
           </svg>
-          <span className="logo-text">ГорныйОтдых</span>
+          <span className="logo-text">РоссияОтдых</span>
         </Link>
 
         <nav className="nav">
-          <Link to="/login" className="nav-link">Войти</Link>
-          <Link to="/register" className="nav-link">Регистрация</Link>
+          <Link to="/" className="nav-link">Бронирования</Link>
+          <Link to="/clients" className="nav-link">Клиенты</Link>
           <Link to="/profile" className="nav-link">Профиль</Link>
           <Link to="/logout" className="nav-link">Выйти</Link>
           

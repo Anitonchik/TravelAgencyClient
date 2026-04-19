@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/header";
 import "./ReservationsMain.css";
 import ReservationCard from "../../components/Reservation/Reservation";
@@ -65,6 +66,7 @@ const BOOKINGS = [
 ];
 
 export default function ReservationsMain() {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState("all");
 
   const filtered = filter === "all" 
@@ -91,12 +93,10 @@ export default function ReservationsMain() {
     <div className="bookings-container">
       <Header />
 
-      
-
       <main className="bookings-main">
         <div className="start-reservation-button-container">
           <button
-            onClick={() => navigate("/bookings")}
+            onClick={() => navigate("/clients", { state: { reservationProcess: true } })}
             className="start-reservation-button"
           >
             Начать бронирование тура

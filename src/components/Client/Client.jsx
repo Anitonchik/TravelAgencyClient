@@ -1,4 +1,4 @@
-import "./Reservation.css";
+import "./Client.css";
 
 export default function ClientCard({clientName, email}) {
 
