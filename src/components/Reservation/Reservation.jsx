@@ -29,7 +29,7 @@ export default function ReservationCard({
 
   return (
     <div className="booking-card">
-      {/* Info */}
+      {/* Информация о бронировании */}
       <div className="booking-card-info">
         <p className="booking-card-text">
           <span className="booking-card-label">Тур: </span>
@@ -45,7 +45,7 @@ export default function ReservationCard({
         </p>
       </div>
 
-      {/* Status badge */}
+      {/* Статус бронирования */}
       <div className="booking-card-status-wrapper">
         <span className={`booking-card-status ${bgClass} ${textClass}`}>
           {label}

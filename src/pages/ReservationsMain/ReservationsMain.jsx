@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "../../components/Header/header";
 import "./ReservationsMain.css";
 import ReservationCard from "../../components/Reservation/Reservation";
+import SearchSection from "../../components/Search/Search";
 
 const STATUS_FILTERS = [
   { label: "Все", value: "all" },
@@ -90,13 +91,25 @@ export default function ReservationsMain() {
     <div className="bookings-container">
       <Header />
 
+      
+
       <main className="bookings-main">
-        {/* Page title */}
+        <div className="start-reservation-button-container">
+          <button
+            onClick={() => navigate("/bookings")}
+            className="start-reservation-button"
+          >
+            Начать бронирование тура
+          </button>
+        </div>
+
         <div className="page-header">
           <h1 className="page-title">
             Бронирования
           </h1>
         </div>
+
+        
 
         <div className="stats-grid">
           <div className="stat-card stat-card-all">
@@ -116,6 +129,8 @@ export default function ReservationsMain() {
             <p className="stat-label">Отменено</p>
           </div>
         </div>
+
+        <SearchSection placeholder="Поиск по клиенту, туру или менеджеру..." />
 
         <div className="filters-container">
           {STATUS_FILTERS.map(({ label, value }) => (

@@ -20,8 +20,8 @@
 .booking-card-info {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   min-width: 0;
+  gap: 0.5rem;
 }
 
 .booking-card-text {
