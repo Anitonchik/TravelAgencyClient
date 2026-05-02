@@ -1,4 +1,4 @@
-import { use, useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation  } from "react-router-dom";
 import TourCard from "../../components/Tour/Tour";
 import "./ToursPage.css";
@@ -89,13 +89,8 @@ export default function ToursPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const reservationProcess = location.state?.reservationProcess;
+  const client = location.state?.client;
 
-  const clients = [
-  {
-    id: 1,
-    clientName: "Гальцова Елизавета Игоревна",
-    email: "ssss"
-  },]
   
   const filteredTours = useMemo(() => {
     if (!search.trim()) {
@@ -109,9 +104,9 @@ export default function ToursPage() {
 
   const handleTourClick = (tour) => {
     if (reservationProcess) {
-      navigate("/reservations/create", { state: { tour } });
+      navigate("/tour", { state: { tour: tour, client: client, reservationProcess : reservationProcess } });
     } else {
-      navigate(`/tours/${tour.id}`);
+      navigate("/tour", {state: {reservationProcess : reservationProcess}});
     }
   }
 
@@ -120,7 +115,8 @@ export default function ToursPage() {
 
       <div className="tours-container">
         {/* Left Sidebar — Preferences */}
-        <aside className="sidebar">
+        {reservationProcess && (
+        <aside className="sidebar-tours-page">
           <div className="client-info-card">
             <h2 className="client-info-title">
               Информация о клиенте
@@ -132,7 +128,7 @@ export default function ToursPage() {
                   Клиент
                 </p>
                 <p className="info-value">
-                  {/*CLIENT.name*/ "ппупупу"}
+                  {client?.clientName || "Имя клиента"}
                 </p>
               </div>
               <div className="divider" />
@@ -141,12 +137,12 @@ export default function ToursPage() {
                   Предпочтения
                 </p>
                 <p className="preferences-text">
-                  {/*CLIENT.preferences*/ "жляои жялври жзвгшпр зцшкг ерпызшегуп иышзва зымшвапмиф зшапм выаярлмятамимидвоармиылдамиядварлдмоирм"}
+                  {client.preferences}
                 </p>
               </div>
             </div>
           </div>
-        </aside>
+        </aside>)}
 
         <main className="main-content">
           <div>
@@ -163,7 +159,9 @@ export default function ToursPage() {
               {TOURS.map((tour) => (
                 <TourCard 
                   key={tour.id} 
-                  tour={tour} />
+                  tour={tour} 
+                  onClick={() => handleTourClick(tour)}
+                />
                   
               ))}
             </div>

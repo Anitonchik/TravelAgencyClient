@@ -2,13 +2,16 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import './Tour.css';
 
-export default function TourCard({tour}) {
+export default function TourCard({tour, onClick}) {
   const durationPrice = `${tour.price} RUB / ${tour.duration} дней`;
   const dates = `${tour.dateFrom} - ${tour.dateTo}`;
 
 
   return (
-    <div className="card">
+    <div 
+    className="card"
+    onClick={onClick}
+    >
       <img src={tour.image} alt={tour.name} className="image" />
 
       <div className="info">

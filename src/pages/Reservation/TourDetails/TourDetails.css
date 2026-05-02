@@ -4,6 +4,7 @@
   font-family: 'Nunito', sans-serif;
   display: flex;
   flex-direction: column;
+  
 }
 
 .main-content {
@@ -44,10 +45,11 @@
 .tour-name-pill {
   display: inline-flex;
   align-items: center;
-  border: 2px solid #3DD068;
+  border: 2px solid #11a1a3;
   border-radius: 9999px;
   padding: 0.75rem 1.5rem;
   margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
   background-color: white;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
@@ -284,7 +286,6 @@
 
 .cta-button {
   width: 100%;
-  max-width: 36rem;
   border: 2px solid #3DD068;
   border-radius: 9999px;
   background-color: white;
@@ -308,16 +309,62 @@
   background-color: rgba(61, 208, 104, 0.05);
 }
 
-.footer {
-  background-color: #EFEFEF;
-  border-top: 2px solid rgba(255, 180, 17, 0.4);
-  padding: 1.5rem 1rem;
-  text-align: center;
-  margin-top: 2rem;
+
+/* Sidebar styles */
+.sidebar {
+  margin: auto;
+  width: 100%;
+  max-width: 64rem;
+  
 }
 
-.footer-text {
-  font-size: 0.875rem;
-  color: #888888;
+
+.client-info-card {
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid #FFB411;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 24px;
+  
+}
+
+.client-info-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #282828;
+  margin-bottom: 12px;
+}
+
+.client-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 14px;
   font-weight: 500;
+  color: #282828;
+}
+
+.divider {
+  border-top: 1px solid rgba(255, 180, 17, 0.2);
+}
+
+.preferences-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  overflow-wrap: break-word;
 }

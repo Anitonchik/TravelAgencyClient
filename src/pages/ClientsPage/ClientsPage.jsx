@@ -1,4 +1,4 @@
-import { use, useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation  } from "react-router-dom";
 import "./ClientsPage.css";
 import СlientCard from "../../components/Client/Client";
@@ -8,28 +8,33 @@ const clients = [
   {
     id: 1,
     clientName: "Гальцова Елизавета Игоревна",
-    email: "ssss"
+    email: "ssss",
+    preferenceDescription: "Любит пляжный отдых, предпочитает отели с системой «всё включено», интересуется экскурсиями и культурными программами."
   },
   {
     id: 2,
     clientName: "Михаил Петров",
-    email: "ssss"
+    email: "ssss",
+    preferenceDescription: "Предпочитает активный отдых, интересуется горными турами и приключенческими путешествиями, любит открывать новые места."
   },
   {
     id: 3,
     clientName: "Анна Сидорова",
-    email: "ssss"
+    email: "ssss",
+    preferenceDescription: "Любит культурные и исторические туры, интересуется музеями, архитектурой и гастрономическими путешествиями."
   },
   {
     id: 4,
     clientName: "Дмитрий Волков",
-    email: "ssss"
+    email: "ssss",
+    preferenceDescription: "Предпочитает семейный отдых, интересуется курортами с детскими клубами, аквапарками и анимацией для детей."
   },
   {
     id: 5,
     clientName: "Елена Новикова",
     managerName: "Иван Козлов",
-    email: "ssss"
+    email: "ssss",
+    preferenceDescription: "Любит роскошные туры, интересуется отелями 5*, спа-центрами и эксклюзивными предложениями."
   }
 ];
 
@@ -38,6 +43,7 @@ export default function ClientsPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const reservationProcess = location.state?.reservationProcess;
+  const tour = location.state?.tour;
   
   const filteredClients = useMemo(() => {
     if (!search.trim()) {
@@ -50,9 +56,14 @@ export default function ClientsPage() {
   }, [search]);
 
   const handleClientClick = (client) => {
-    if (reservationProcess) {
-      navigate("/reservations/create", { state: { client } });
-    } else {
+    alert("fjvhbkjfvbjgv")
+    if (reservationProcess && !tour) {
+      navigate("/tours", { state: { reservationProcess: true, client: client } });
+    } 
+    else if (reservationProcess && tour) {
+      navigate("/flight", { state: { tour: tour, client: client, reservationProcess : reservationProcess } });
+    }
+    else {
       navigate(`/clients/${client.id}`);
     }
   }

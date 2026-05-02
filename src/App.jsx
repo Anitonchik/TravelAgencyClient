@@ -10,7 +10,8 @@ import ReservationsMain from './pages/ReservationsMain/ReservationsMain'
 import ClientsPage from './pages/ClientsPage/ClientsPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import ToursPage from './pages/ToursPage/ToursPage'
-
+import FlightReservation from './pages/Reservation/FlightReservation/FlightReservation'
+import TourDetailsPage from './pages/Reservation/TourDetails/TourDetails'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,6 +27,8 @@ function App() {
               <Route path="*" element={<ReservationsMain />} />
               <Route path="/hotels" element={<HotelCard />} />
               <Route path="/tours" element={<ToursPage />} />
+              <Route path="/tour" element={<TourDetailsPage />} />
+              <Route path="/flights" element={<FlightReservation />} />
           </Routes>
           <Footer />
         </div>

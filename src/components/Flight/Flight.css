@@ -1,0 +1,46 @@
+/* Flight card button */
+.flight-card {
+  width: 100%;
+  text-align: left;
+  border-radius: 14px;
+  border: 2px solid;
+  padding: 16px 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: white;
+}
+
+.flight-card-default {
+    border: 2px solid rgba(216, 154, 19, 0.5);
+    background-color: rgba(215, 215, 215, 0.608);
+}
+
+.flight-card-default:hover {
+    border: 2px solid #FFB411;
+    background-color: white;
+}
+
+.flight-card-selected {
+  border-color: #FFB411;
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.flight-airline {
+  font-weight: 500;
+  color: #282828;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.flight-datetime {
+  color: #555555;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.flight-price {
+  font-weight: 700;
+  color: #282828;
+  font-size: 16px;
+}

@@ -1,17 +1,20 @@
 import "./Client.css";
 
-export default function ClientCard({client}) {
+export default function ClientCard({client, onClick}) {
   
 
   return (
-    <div className="booking-card">
-      <div className="booking-card-info">
-        <p className="booking-card-text">
-          <span className="booking-card-label">{client.clientName}</span>
+    <div 
+    className="client-card"
+    onClick={onClick} 
+    >
+      <div className="client-card-info">
+        <p className="client-card-text">
+          <span className="client-card-label">{client.clientName}</span>
           
         </p>
-        <p className="booking-card-text">
-          <span className="booking-card-label">{client.email}</span>
+        <p className="client-card-text">
+          <span className="client-card-label">{client.email}</span>
         </p>
       </div>
     </div>

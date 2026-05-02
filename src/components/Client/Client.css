@@ -1,0 +1,102 @@
+.client-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: #EFEFEF;
+  border: 2px solid #FFB411;
+  border-radius: 25px;
+  padding: 1.25rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.client-card:hover {
+  background-color: #ffffff;
+  border: 3px solid #FFB411;
+}
+
+@media (min-width: 640px) {
+  .client-card {
+    padding: 1.5rem;
+  }
+}
+
+.client-card-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.5rem;
+}
+
+.client-card-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: black;
+  line-height: 1.375;
+}
+
+@media (min-width: 640px) {
+  .client-card-text {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .client-card-text {
+    font-size: 1.125rem;
+  }
+}
+
+.client-card-label {
+  color: #555555;
+  font-weight: normal;
+}
+
+.client-card-status-wrapper {
+  flex-shrink: 0;
+}
+
+.client-card-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .client-card-status {
+    font-size: 1rem;
+  }
+}
+
+/* Status colors */
+.status-bg-confirmed {
+  background-color: #d6f0d6;
+}
+
+.status-text-confirmed {
+  color: #2e7d2e;
+}
+
+.status-bg-pending {
+  background-color: #fff3cc;
+}
+
+.status-text-pending {
+  color: #856900;
+}
+
+.status-bg-cancelled {
+  background-color: #fde0e0;
+}
+
+.status-text-cancelled {
+  color: #c0392b;
+}

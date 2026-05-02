@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "@/components/Header";
-import "./TourBooking.css";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./TourDetails.css";
 
 const TOUR_PHOTOS = [
   "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=240&fit=crop",
@@ -25,35 +24,60 @@ const TOUR = {
   ],
 };
 
-export default function TourBooking() {
+export default function TourDetailsPage() {
   const [currentPhoto, setCurrentPhoto] = useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
+  const reservationProcess = location.state?.reservationProcess;
+  const client = location.state?.client;
+  const tour = location.state?.tour;
 
   const prev = () =>
     setCurrentPhoto((p) => (p - 1 + TOUR_PHOTOS.length) % TOUR_PHOTOS.length);
   const next = () =>
     setCurrentPhoto((p) => (p + 1) % TOUR_PHOTOS.length);
 
+
+  const handleStartReservationClick = (tour) => {
+    if (reservationProcess) {
+      navigate("/flights", { state: { tour: tour, client: client, reservationProcess : reservationProcess } });
+    } else {
+      navigate("/clients", {state: {reservationProcess : true, tour: tour}});
+    }
+  }  
+
   return (
     <div className="tour-booking-container">
-      <Header />
+      
 
       <main className="main-content">
-        {/* Client header */}
-        <p className="client-header">
-          Выбор тура для клиента {CLIENT_NAME}
-        </p>
+        {reservationProcess && (
+        <aside className="sidebar">
+          <div className="client-info-card">
+            
 
-        {/* Tour name pill — green border */}
+            <div className="client-info-content">
+              <div>
+                <p className="info-label">
+                  Клиент
+                </p>
+                <p className="info-value">
+                  {client?.clientName || "Имя клиента"}
+                </p>
+              </div>
+              
+            </div>
+          </div>
+        </aside>)}
+
         <div className="tour-name-pill">
           <span className="tour-name-text">
-            {TOUR.name}
+            {tour.name}
           </span>
         </div>
 
         {/* Photo strip / carousel */}
         <div className="photo-carousel">
-          {/* Desktop: all photos in a row */}
           <div className="desktop-photo-strip">
             {TOUR_PHOTOS.map((src, idx) => (
               <img
@@ -128,12 +152,12 @@ export default function TourBooking() {
         <div className="price-row">
           <div className="price-pill price-pill-left">
             <span className="price-text">
-              {TOUR.priceLeft}
+              {tour.priceLeft}
             </span>
           </div>
           <div className="price-pill price-pill-right">
             <span className="price-text">
-              {TOUR.priceRight}
+              {tour.priceRight}
             </span>
           </div>
         </div>
@@ -141,19 +165,13 @@ export default function TourBooking() {
         {/* CTA Button — green border */}
         <div className="cta-container">
           <button
-            onClick={() => navigate("/bookings")}
+            onClick={() => handleStartReservationClick(tour)}
             className="cta-button"
           >
             Начать бронирование тура
           </button>
         </div>
       </main>
-
-      <footer className="footer">
-        <p className="footer-text">
-          © 2024 ГорныйОтдых — отдых на Северном Кавказе
-        </p>
-      </footer>
     </div>
   );
 }
