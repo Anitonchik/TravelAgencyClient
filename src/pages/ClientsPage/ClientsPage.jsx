@@ -1,9 +1,7 @@
 import { use, useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header/header";
+import { useNavigate, useLocation  } from "react-router-dom";
 import "./ClientsPage.css";
 import СlientCard from "../../components/Client/Client";
-import Footer from "../../components/Footer/Footer";
 
 
 const clients = [
@@ -35,9 +33,11 @@ const clients = [
   }
 ];
 
-export default function ClientsPage({reservationProcess = false}) {
+export default function ClientsPage() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const reservationProcess = location.state?.reservationProcess;
   
   const filteredClients = useMemo(() => {
     if (!search.trim()) {
@@ -49,25 +49,41 @@ export default function ClientsPage({reservationProcess = false}) {
     );
   }, [search]);
 
+  const handleClientClick = (client) => {
+    if (reservationProcess) {
+      navigate("/reservations/create", { state: { client } });
+    } else {
+      navigate(`/clients/${client.id}`);
+    }
+  }
+
   return (
     <div className="clients-container">
-      <Header />
 
     <main className="clients-main">
-        {(!reservationProcess) && (<div className="create-client-button-container">
-          <button
-            onClick={() => navigate("/clients/create")}
-            className="create-client-button"
-          >
-            Создать клиента
-          </button>
-        </div>)}
-        
-        <div className="page-header">
-          <h1 className="page-title">
-            Клиенты
-          </h1>
-        </div>
+        {(!reservationProcess) ? (
+          <>
+            <div className="create-client-button-container">
+              <button
+                onClick={() => navigate("/clients/create")}
+                className="create-client-button"
+              >
+                Создать клиента
+              </button>
+            </div>
+          
+            <div className="page-header">
+              <h1 className="page-title">
+                Клиенты
+              </h1>
+            </div>
+        </>) : (
+          <div className="page-header">
+              <h1 className="page-title">
+                Выберите клиента для бронирования тура
+              </h1>
+            </div>
+        )}
 
         <div className="search-container">
           <div className="search-form">
@@ -93,8 +109,8 @@ export default function ClientsPage({reservationProcess = false}) {
             filteredClients.map((client) => (
               <СlientCard
                 key={client.id}
-                clientName={client.clientName}
-                email={client.email}
+                client = {client}
+                onClick={() => handleClientClick(client)}
               />
             ))
           ) : (
@@ -105,7 +121,6 @@ export default function ClientsPage({reservationProcess = false}) {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

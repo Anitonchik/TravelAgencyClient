@@ -56,11 +56,11 @@
   margin-top: 16px;
 }
 
-.badges {
+/*.badges {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-}
+}*/
 
 .badge {
   padding: 10px 20px;

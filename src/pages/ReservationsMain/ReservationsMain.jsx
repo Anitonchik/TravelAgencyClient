@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header/header";
 import "./ReservationsMain.css";
 import ReservationCard from "../../components/Reservation/Reservation";
 import SearchSection from "../../components/Search/Search";
@@ -91,7 +90,6 @@ export default function ReservationsMain() {
 
   return (
     <div className="bookings-container">
-      <Header />
 
       <main className="bookings-main">
         <div className="start-reservation-button-container">
@@ -108,8 +106,6 @@ export default function ReservationsMain() {
             Бронирования
           </h1>
         </div>
-
-        
 
         <div className="stats-grid">
           <div className="stat-card stat-card-all">
@@ -168,12 +164,6 @@ export default function ReservationsMain() {
           )}
         </div>
       </main>
-
-      <footer className="bookings-footer">
-        <p className="footer-text">
-          © 2024 ГорныйОтдых — отдых на Северном Кавказе
-        </p>
-      </footer>
     </div>
   );
 }

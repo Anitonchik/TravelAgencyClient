@@ -37,7 +37,7 @@
   transition: background-color 0.2s;
 }
 
-.start-reservation-button:hover {
+.create-client-button:hover {
   background-color: #32e969;
   color: white;
 }

@@ -1,30 +1,38 @@
+import React, { useState, useMemo, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import './Tour.css';
 
-export default function HotelCard({ name, location, imageUrl, duration, price, dateFrom, dateTo }) {
-  durationPrice = `${price} RUB / ${duration} дней`
-  dates = `${dateFrom} - ${dateTo}`
+export default function TourCard({tour}) {
+  const durationPrice = `${tour.price} RUB / ${tour.duration} дней`;
+  const dates = `${tour.dateFrom} - ${tour.dateTo}`;
+
 
   return (
     <div className="card">
-      <img src={imageUrl} alt={name} className="image" />
+      <img src={tour.image} alt={tour.name} className="image" />
 
       <div className="info">
-        <div>
-          <h3 className="title">{name}</h3>
-          <p className="location">{location}</p>
+        <div className="d-flex flex-column gap-3">
+          <h3 className="title">{tour.name}</h3>
+          <div className="d-flex flex-column gap-2">
+            <p className="direction">{tour.direction}</p>
+            <p className="description">{tour.description}</p>
+          </div>
         </div>
 
         <div className="bottomRow">
           <div className="badges">
-            {badges.map((badge) => (
-              <span key={badge} className="badge">
-                {badge}
-              </span>
-            ))}
-            <span className="duration">{durationPrice}</span>
+            <span className="badge" style={{fontSize: '16px'}}>{durationPrice}</span>
+            {(tour.isTransferExists) && (
+              <span className="badge">Трансфер</span>
+            )}
+            {(tour.isInsurancesExists) && (
+              <span className="badge">Страхование</span>
+            )}
+            
           </div>
 
-          <span className="price">{dates}</span>
+          <span className="badge">{dates}</span>
         </div>
       </div>
     </div>
