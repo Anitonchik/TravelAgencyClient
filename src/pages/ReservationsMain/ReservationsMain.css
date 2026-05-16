@@ -102,22 +102,22 @@
   transform: translateY(-2px);
 }
 
-.stat-card-all {
+.stat-card-ALL {
   border-color: #FFB411;
   background-color: #EFEFEF;
 }
 
-.stat-card-confirmed {
+.stat-card-CONFIRMED {
   border-color: #4caf50;
   background-color: #d6f0d6;
 }
 
-.stat-card-pending {
+.stat-card-EXPECTATION {
   border-color: #f0c040;
   background-color: #fff3cc;
 }
 
-.stat-card-cancelled {
+.stat-card-CANCELED {
   border-color: #e57373;
   background-color: #fde0e0;
 }
@@ -126,6 +126,7 @@
   font-size: 2rem;
   font-weight: 700;
   color: #282828;
+  margin-bottom: 0;
 }
 
 @media (min-width: 640px) {
@@ -139,6 +140,7 @@
   color: #555555;
   font-weight: 500;
   margin-top: 0.25rem;
+  margin-bottom: 0;
 }
 
 /* Фильтры */
@@ -196,17 +198,17 @@
   color: #282828;
 }
 
-.status-pill-confirmed {
+.status-pill-CONFIRMED {
   background-color: #d6f0d6;
   color: #2e7d2e;
 }
 
-.status-pill-pending {
+.status-pill-EXPECTATION {
   background-color: #fff3cc;
   color: #856900;
 }
 
-.status-pill-cancelled {
+.status-pill-CANCELED {
   background-color: #fde0e0;
   color: #c0392b;
 }
@@ -241,5 +243,482 @@
 .footer-text {
   font-size: 0.875rem;
   color: #888888;
+  font-weight: 500;
+}
+
+
+/* ==================== */
+/* КНОПКИ ДЕЙСТВИЙ      */
+/* ==================== */
+
+/* Контейнер для кнопок действий */
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Стили для кнопки "Клиенты" */
+.clients-button {
+  width: 100%;
+  max-width: 25rem;
+  border: 2px solid #FFB411;
+  border-radius: 9999px;
+  background-color: white;
+  padding: 1rem 2rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  color: #282828;
+  font-size: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.clients-button:hover {
+  background-color: #FFB411;
+  border-color: #FFB411;
+  color: #282828;
+}
+
+/* ==================== */
+/* БАННЕР ВЫБРАННОГО КЛИЕНТА */
+/* ==================== */
+
+.selected-client-banner {
+  background: #ffd477;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.selected-client-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.selected-client-label {
+  color:  rgba(14, 14, 14, 0.767);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.selected-client-name {
+  color:  rgba(14, 14, 14, 0.767);
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.selected-client-email {
+  color:  rgba(14, 14, 14, 0.767);
+  font-size: 0.875rem;
+}
+
+.clear-client-btn {
+  background-color: rgba(14, 14, 14, 0.767);
+  border: 1px solid rgba(55, 55, 55, 0.67);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clear-client-btn:hover {
+  background-color: rgba(127, 127, 127, 0.3);
+  color: rgba(14, 14, 14, 0.767);
+  transform: scale(1.05);
+}
+
+/* ==================== */
+/* МОДАЛЬНОЕ ОКНО       */
+/* ==================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #282828;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #777;
+  transition: all 0.2s;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.modal-close:hover {
+  color: #282828;
+  background-color: #f0f0f0;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Стилизация скроллбара для модального окна */
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ==================== */
+/* СПИСОК КЛИЕНТОВ      */
+/* ==================== */
+
+.clients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.client-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid #f0f0f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: white;
+}
+
+.client-item:hover {
+  border-color: #FFB411;
+  background-color: #fff5e0;
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.client-details {
+  flex: 1;
+  text-overflow: ellipsis;
+}
+
+.client-name {
+  font-weight: 700;
+  color: #282828;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.client-email {
+  font-size: 0.875rem;
+  color: #777;
+  margin-bottom: 0.25rem;
+  overflow-wrap: break-word;
+}
+
+.client-phone {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+/* Состояния загрузки и пустого списка */
+.loading-clients {
+  text-align: center;
+  padding: 3rem;
+  color: #777;
+  font-size: 1rem;
+}
+
+.empty-clients {
+  text-align: center;
+  padding: 3rem;
+  color: #777;
+  font-size: 1rem;
+}
+
+/* ==================== */
+/* ОТКЛЮЧЕННЫЕ ФИЛЬТРЫ  */
+/* ==================== */
+
+.filter-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.filter-chip:disabled:hover {
+  transform: none;
+}
+
+/* ==================== */
+/* АДАПТИВНОСТЬ         */
+/* ==================== */
+
+@media (max-width: 640px) {
+  /* Кнопки действий */
+  .actions-container {
+    flex-direction: column;
+  }
+  
+  .start-reservation-button,
+  .clients-button {
+    max-width: 100%;
+  }
+  
+  /* Баннер выбранного клиента */
+  .selected-client-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .selected-client-info {
+    justify-content: center;
+  }
+  
+  /* Модальное окно */
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+    max-height: 90vh;
+  }
+  
+  .modal-header {
+    padding: 1rem;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  /* Элементы списка клиентов */
+  .client-item {
+    padding: 0.75rem;
+  }
+  
+  .client-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .client-name {
+    font-size: 0.875rem;
+  }
+  
+  .client-email,
+  .client-phone {
+    font-size: 0.75rem;
+  }
+}
+
+/* ==================== */
+/* ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ */
+/* ==================== */
+
+/* Пульсация для активного элемента */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Эффект при клике на кнопку */
+.clients-button:active,
+.clear-client-btn:active {
+  transform: scale(0.98);
+}
+
+/* Градиентная граница для модального окна */
+.modal-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+/* Стили для фокуса (доступность) */
+.clients-button:focus-visible,
+.clear-client-btn:focus-visible,
+.modal-close:focus-visible,
+.client-item:focus-visible {
+  outline: 2px solid #FFB411;
+  outline-offset: 2px;
+}
+
+
+/* Поиск клиентов в модальном окне */
+.clients-search-container {
+  margin-bottom: 1rem;
+}
+
+.clients-search-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.clients-search-input:focus {
+  border-color: #FFB411;
+}
+
+/* Пагинация */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #FFB411;
+  border-radius: 8px;
+  background-color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #FFB411;
+  color: white;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 0.875rem;
+  color: #282828;
   font-weight: 500;
 }

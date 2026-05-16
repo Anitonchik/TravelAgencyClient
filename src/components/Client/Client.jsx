@@ -10,11 +10,11 @@ export default function ClientCard({client, onClick}) {
     >
       <div className="client-card-info">
         <p className="client-card-text">
-          <span className="client-card-label">{client.clientName}</span>
+          <span className="client-card-label card-client-name">{client.lastName} {client.firstName} {client.surName}</span>
           
         </p>
-        <p className="client-card-text">
-          <span className="client-card-label">{client.email}</span>
+        <p className="client-card-text ">
+          <span className="client-card-label card-client-email">{client.email}</span>
         </p>
       </div>
     </div>

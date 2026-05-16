@@ -8,10 +8,37 @@
   padding: 15px;
 
   background: #efefef;
-  border: 5px solid #ffb411;
+  border: 1px solid #ffb411;
   border-radius: 25px;
 
   opacity: 0.95;
+}
+
+.hotel-card {
+  width: 100%;
+  text-align: left;
+  border-radius: 14px;
+  border: 2px solid;
+  padding: 16px 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: white;
+}
+
+.hotel-card-default {
+    border: 2px solid rgba(216, 154, 19, 0.5);
+    background-color: rgba(215, 215, 215, 0.608);
+}
+
+.hotel-card-default:hover {
+    border: 2px solid #FFB411;
+    background-color: white;
+}
+
+.hotel-card-selected {
+  border-color: #FFB411;
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .image {

@@ -52,6 +52,16 @@
 .client-card-label {
   color: #555555;
   font-weight: normal;
+  overflow-wrap: break-word;
+}
+
+.card-client-name {
+  font-size: 24px;
+  color:#000000;
+}
+
+.card-client-email {
+  font-size: 16px;
 }
 
 .client-card-status-wrapper {

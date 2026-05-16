@@ -3,6 +3,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import './Tour.css';
 
 export default function TourCard({tour, onClick}) {
+  let newDateFrom = new Date(tour.dateFrom).toLocaleDateString();
+  let newDateTo = new Date(tour.dateTo).toLocaleDateString();
+  tour.dateFrom = newDateFrom;
+  tour.dateTo = newDateTo;
   const durationPrice = `${tour.price} RUB / ${tour.duration} дней`;
   const dates = `${tour.dateFrom} - ${tour.dateTo}`;
 
@@ -35,7 +39,7 @@ export default function TourCard({tour, onClick}) {
             
           </div>
 
-          <span className="badge">{dates}</span>
+          <span className="badge-date">{dates}</span>
         </div>
       </div>
     </div>

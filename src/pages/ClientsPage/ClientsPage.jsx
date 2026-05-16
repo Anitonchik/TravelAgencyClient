@@ -1,77 +1,137 @@
-import { useState, useEffect, useMemo } from "react";
-import { useNavigate, useLocation  } from "react-router-dom";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./ClientsPage.css";
 import СlientCard from "../../components/Client/Client";
-
-
-const clients = [
-  {
-    id: 1,
-    clientName: "Гальцова Елизавета Игоревна",
-    email: "ssss",
-    preferenceDescription: "Любит пляжный отдых, предпочитает отели с системой «всё включено», интересуется экскурсиями и культурными программами."
-  },
-  {
-    id: 2,
-    clientName: "Михаил Петров",
-    email: "ssss",
-    preferenceDescription: "Предпочитает активный отдых, интересуется горными турами и приключенческими путешествиями, любит открывать новые места."
-  },
-  {
-    id: 3,
-    clientName: "Анна Сидорова",
-    email: "ssss",
-    preferenceDescription: "Любит культурные и исторические туры, интересуется музеями, архитектурой и гастрономическими путешествиями."
-  },
-  {
-    id: 4,
-    clientName: "Дмитрий Волков",
-    email: "ssss",
-    preferenceDescription: "Предпочитает семейный отдых, интересуется курортами с детскими клубами, аквапарками и анимацией для детей."
-  },
-  {
-    id: 5,
-    clientName: "Елена Новикова",
-    managerName: "Иван Козлов",
-    email: "ssss",
-    preferenceDescription: "Любит роскошные туры, интересуется отелями 5*, спа-центрами и эксклюзивными предложениями."
-  }
-];
+import Client from "../../client/ClientRq";
 
 export default function ClientsPage() {
-  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const reservationProcess = location.state?.reservationProcess;
   const tour = location.state?.tour;
   
-  const filteredClients = useMemo(() => {
-    if (!search.trim()) {
-      return clients;
+  const [clients, setClients] = useState([]);
+  const currentPageRef = useRef(0);
+  const [fetching, setFetching] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
+  const [searchClientName, setSearchClientName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const pageSize = 10;
+  
+  const clientApi = useMemo(() => new Client(), []);
+  const searchTimeoutRef = useRef(null);
+
+  const loadClients = useCallback(async (pageNum, resetList = false) => {
+    setIsLoading(true);
+    try {
+      let data;
+      
+      if (searchClientName.trim()) {
+        data = await clientApi.getByClientName(searchClientName, pageNum, pageSize);
+      } else {
+        data = await clientApi.getAll(pageNum, pageSize);
+      }
+      
+      const clientsArray = data.content || data;
+      
+      if (resetList) {
+        setClients(clientsArray);
+      } else {
+        setClients(prev => [...prev, ...clientsArray]);
+      }
+      
+      setTotalCount(data.totalElements || clientsArray.length);
+      return data;
+    } catch (error) {
+      console.error("Ошибка при загрузке клиентов:", error);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [clientApi, searchClientName, pageSize]);
+
+  const handleSearchChange = (value) => {
+    setSearchClientName(value);
+    
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
     }
     
-    return clients.filter(client => 
-      client.clientName.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search]);
+    searchTimeoutRef.current = setTimeout(() => {
+      setClients([]);
+      currentPageRef.current = 0;
+      setFetching(true);
+    }, 300);
+  };
+
+  useEffect(() => {
+    setClients([]);
+    currentPageRef.current = 0;
+    setFetching(true);
+  }, [searchClientName]);
+
+  useEffect(() => {
+    if (!fetching) return;
+    
+    const loadMore = async () => {
+      const pageToLoad = currentPageRef.current;
+      const data = await loadClients(pageToLoad, pageToLoad === 0);
+      
+      if (data && data.content && data.content.length > 0) {
+        currentPageRef.current += 1;
+      } else if (data && data.content && data.content.length === 0) {
+        setFetching(false);
+      }
+      setFetching(false);
+    };
+    
+    loadMore();
+  }, [fetching, loadClients]);
+
+  const scrollHandler = useCallback((e) => {
+    const scrollHeight = e.target.documentElement.scrollHeight;
+    const scrollTop = e.target.documentElement.scrollTop;
+    const clientHeight = window.innerHeight;
+    
+    if (scrollHeight - (scrollTop + clientHeight) < 100 
+        && clients.length < totalCount 
+        && !fetching 
+        && !isLoading) {
+      setFetching(true);
+    }
+  }, [clients.length, totalCount, fetching, isLoading]);
+
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+    return () => {
+      document.removeEventListener("scroll", scrollHandler);
+    };
+  }, [scrollHandler]);
+
+  
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleClientClick = (client) => {
-    alert("fjvhbkjfvbjgv")
     if (reservationProcess && !tour) {
       navigate("/tours", { state: { reservationProcess: true, client: client } });
     } 
     else if (reservationProcess && tour) {
-      navigate("/flight", { state: { tour: tour, client: client, reservationProcess : reservationProcess } });
+      navigate("/flight", { state: { tour: tour, client: client, reservationProcess: reservationProcess } });
     }
     else {
       navigate(`/clients/${client.id}`);
     }
-  }
+  };
 
   return (
     <div className="clients-container">
-
-    <main className="clients-main">
+      <main className="clients-main">
         {(!reservationProcess) ? (
           <>
             <div className="create-client-button-container">
@@ -88,12 +148,13 @@ export default function ClientsPage() {
                 Клиенты
               </h1>
             </div>
-        </>) : (
+          </>
+        ) : (
           <div className="page-header">
-              <h1 className="page-title">
-                Выберите клиента для бронирования тура
-              </h1>
-            </div>
+            <h1 className="page-title">
+              Выберите клиента для бронирования тура
+            </h1>
+          </div>
         )}
 
         <div className="search-container">
@@ -103,35 +164,56 @@ export default function ClientsPage() {
               <input
                 type="text"
                 placeholder="ФИО клиента"
-                //value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={searchClientName}
+                onChange={(e) => handleSearchChange(e.target.value)}
                 className="search-input"
               />
             </div>
             
             <div className="search-button-wrapper">
-              <button className="search-button">Найти</button>
+              <button 
+                onClick={() => {
+                  setClients([]);
+                  currentPageRef.current = 0;
+                  setFetching(true);
+                }} 
+                className="search-button"
+              >
+                Найти
+              </button>
             </div>
           </div>
         </div>
 
         <div className="clients-list">
-          {filteredClients.length > 0 ? (
-            filteredClients.map((client) => (
-              <СlientCard
-                key={client.id}
-                client = {client}
-                onClick={() => handleClientClick(client)}
-              />
-            ))
+          {isLoading && clients.length === 0 ? (
+            <div className="loading-state">Загрузка клиентов...</div>
+          ) : clients.length > 0 ? (
+            <>
+              {clients.map((client) => (
+                <СlientCard
+                  key={client.id}
+                  client={client}
+                  onClick={() => handleClientClick(client)}
+                />
+              ))}
+              {isLoading && clients.length > 0 && (
+                <div className="loading-more">Загрузка еще...</div>
+              )}
+            </>
           ) : (
             <div className="empty-state">
-              Нет клиентов, соответствующих вашему запросу.
+              {searchClientName 
+                ? "Нет клиентов, соответствующих вашему запросу."
+                : "Нет зарегистрированных клиентов."}
             </div>
           )}
         </div>
+        
+        {!isLoading && clients.length > 0 && clients.length >= totalCount && totalCount > 0 && (
+          <div className="end-of-list">Конец списка</div>
+        )}
       </main>
-
     </div>
   );
 }

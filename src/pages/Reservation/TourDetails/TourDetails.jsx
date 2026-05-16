@@ -1,74 +1,108 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Reservation from "../../../client/ReservationRq";
 import "./TourDetails.css";
 
-const TOUR_PHOTOS = [
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=240&fit=crop",
-  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=220&h=240&fit=crop",
-  "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=400&h=240&fit=crop",
-  "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=220&h=240&fit=crop",
-  "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=340&h=240&fit=crop",
-];
+// Маппинг типов туров
+const TOUR_TYPE_MAP = {
+  excursion: "Экскурсионный",
+  HEALTH: "Оздоровительный",
+  SPORTS: "Спортивный"
+};
 
-const CLIENT_NAME = "Гальцова Елизавета Игоревна";
-
-const TOUR = {
-  name: '"ДАГЕСТАН-ВСЕ ВКЛЮЧЕНО" 3 дня',
-  activityLevel: "интенсивный уровень",
-  tourType: "экскурсионный",
-  priceLeft: "60,700 RUB / 7 дней",
-  priceRight: "60,700 RUB / 7 дней",
-  description: [
-    "Приглашаем в увлекательное путешествие по одной из самых красивых дорог мира — Чуйскому тракту!",
-    "Нам предстоит длинный путь с головокружительными пейзажами: мы проедем практически до Монголии и увидим настоящий Алтай, сделаем яркие снимки на фоне горных перевалов, вершин, озер и рек.",
-  ],
+// Маппинг интенсивности туров
+const TOUR_INTENSITY_MAP = {
+  Passive: "Пассивный",
+  Usual: "Обычный",
+  Active: "Активный"
 };
 
 export default function TourDetailsPage() {
-  const [currentPhoto, setCurrentPhoto] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const reservationProcess = location.state?.reservationProcess;
   const client = location.state?.client;
   const tour = location.state?.tour;
 
-  const prev = () =>
-    setCurrentPhoto((p) => (p - 1 + TOUR_PHOTOS.length) % TOUR_PHOTOS.length);
-  const next = () =>
-    setCurrentPhoto((p) => (p + 1) % TOUR_PHOTOS.length);
+  // Получаем русские названия для типа тура и интенсивности
+  const tourTypeTitle = useMemo(() => {
+    return TOUR_TYPE_MAP[tour.tourType] || tour.tourType || "Не указан";
+  }, [tour.tourType]);
 
+  const tourIntensityTitle = useMemo(() => {
+    return TOUR_INTENSITY_MAP[tour.tourIntensity] || tour.intensity || "Не указана";
+  }, [tour.intensity]);
 
-  const handleStartReservationClick = (tour) => {
+  const reservationApi = useMemo(() => new Reservation(), []);
+
+  let newDateFrom = new Date(tour.dateFrom).toLocaleDateString();
+  let newDateTo = new Date(tour.dateTo).toLocaleDateString();
+  tour.dateFrom = newDateFrom;
+  tour.dateTo = newDateTo;
+  const durationPrice = `${tour.price} RUB / ${tour.duration} дней`;
+  const dates = `${tour.dateFrom} - ${tour.dateTo}`;
+
+  const handleStartReservationClick = async (tour) => {
     if (reservationProcess) {
-      navigate("/flights", { state: { tour: tour, client: client, reservationProcess : reservationProcess } });
+      let reservation = {
+        reservationDate: new Date(),
+        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        clientId: client.id,
+        tourId: tour.id
+      }
+      
+
+      const res = await reservationApi.startReservation(reservation);
+      console.log(res)
+
+      reservation = {
+        id: res.id,
+        reservationDate: new Date(),
+        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        client: client,
+        tour: tour,
+        flightTo: null,
+        flightFrom: null,
+        hotel: null,
+        indicateTransfer: null,
+        indicateInsurance: null,
+        paymentType: null,
+        insuranceType: null
+      }
+      
+      navigate("/flights", { 
+        state: { 
+          tour: tour, 
+          client: client, 
+          reservation: reservation,
+          reservationProcess: reservationProcess, 
+        } 
+      });
     } else {
-      navigate("/clients", {state: {reservationProcess : true, tour: tour}});
+      navigate("/clients", {state: {reservationProcess: true, tour: tour}});
     }
   }  
 
+
   return (
     <div className="tour-booking-container">
-      
-
       <main className="main-content">
         {reservationProcess && (
-        <aside className="sidebar">
-          <div className="client-info-card">
-            
-
-            <div className="client-info-content">
-              <div>
-                <p className="info-label">
-                  Клиент
-                </p>
-                <p className="info-value">
-                  {client?.clientName || "Имя клиента"}
-                </p>
+          <aside className="sidebar">
+            <div className="client-info-card">
+              <div className="client-info-content">
+                <div>
+                  <p className="info-label">
+                    Клиент
+                  </p>
+                  <p className="info-value">
+                    {client?.lastName + " " + client?.firstName + " " + client?.surName || "Имя клиента"}
+                  </p>
+                </div>
               </div>
-              
             </div>
-          </div>
-        </aside>)}
+          </aside>
+        )}
 
         <div className="tour-name-pill">
           <span className="tour-name-text">
@@ -76,88 +110,45 @@ export default function TourDetailsPage() {
           </span>
         </div>
 
-        {/* Photo strip / carousel */}
-        <div className="photo-carousel">
-          <div className="desktop-photo-strip">
-            {TOUR_PHOTOS.map((src, idx) => (
-              <img
-                key={idx}
-                src={src}
-                alt={`Фото тура ${idx + 1}`}
-                className="photo-thumb"
-                onClick={() => setCurrentPhoto(idx)}
-              />
-            ))}
-          </div>
-
-          {/* Mobile: single photo with arrows */}
-          <div className="mobile-photo-view">
-            <img
-              src={TOUR_PHOTOS[currentPhoto]}
-              alt={`Фото тура ${currentPhoto + 1}`}
-              className="mobile-photo"
-            />
-            <button
-              onClick={prev}
-              className="nav-button nav-button-left"
-              aria-label="Назад"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" strokeWidth="2" strokeLinecap="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-            <button
-              onClick={next}
-              className="nav-button nav-button-right"
-              aria-label="Вперёд"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" strokeWidth="2" strokeLinecap="round">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-            <div className="photo-dots">
-              {TOUR_PHOTOS.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentPhoto(idx)}
-                  className={`photo-dot ${idx === currentPhoto ? "photo-dot-active" : "photo-dot-inactive"}`}
-                />
-              ))}
-            </div>
-          </div>
+        {/* Single photo */}
+        <div className="photo-container">
+          <img
+            src={tour.image}
+            alt={tour.name}
+            className="tour-photo"
+          />
         </div>
 
         {/* Activity + Tour type row */}
         <div className="info-row">
           <p className="info-text">
-            Активность:{" "}
-            <span className="info-value">{TOUR.activityLevel}</span>
+            Интенсивность:{" "}
+            <span className="info-value">{tourIntensityTitle}</span>
           </p>
           <p className="info-text info-text-right">
             Тип тура:{" "}
-            <span className="info-value">{TOUR.tourType}</span>
+            <span className="info-value">{tourTypeTitle}</span>
           </p>
         </div>
 
         {/* Description */}
         <div className="description-container">
-          {TOUR.description.map((para, idx) => (
-            <p key={idx} className="description-text">
-              {para}
-            </p>
-          ))}
+          <p key={"desc"} className="description-text">
+            {tour.description}
+          </p>
         </div>
 
         {/* Price pills row */}
         <div className="price-row">
           <div className="price-pill price-pill-left">
             <span className="price-text">
-              {tour.priceLeft}
+              {durationPrice}
             </span>
           </div>
-          <div className="price-pill price-pill-right">
+
+          <div className="price-pill price-pill-left">
             <span className="price-text">
-              {tour.priceRight}
+              {dates}
             </span>
           </div>
         </div>
