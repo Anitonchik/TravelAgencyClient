@@ -12,14 +12,21 @@ export async function getRequest(url, options = {}) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    }
+    },
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const errorText = await response.text();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
   }
 
-  return response.json();
+  const contentType = response.headers.get('content-type');
+  
+  if (contentType && contentType.includes('application/json')) {
+    return response.json();
+  }
+  
+  return response.text(); 
 }
 
 export async function postRequest(url, data, options = {}) {
@@ -89,3 +96,26 @@ export async function deleteRequest(url, options = {}) {
         }        return response.json();
     });
 };
+
+export async function postRequestBlob(url, data, options = {}) {
+  let fullUrl = baseURL + url;
+
+  if (options.params) {
+    const query = new URLSearchParams(options.params).toString();
+    fullUrl += `?${query}`;
+  }
+
+  const response = await fetch(fullUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.blob();
+}

@@ -35,11 +35,11 @@ export default function TourDetailsPage() {
 
   const reservationApi = useMemo(() => new Reservation(), []);
 
-  let newDateFrom = new Date(tour.dateFrom).toLocaleDateString();
-  let newDateTo = new Date(tour.dateTo).toLocaleDateString();
-  tour.dateFrom = newDateFrom;
-  tour.dateTo = newDateTo;
-  const durationPrice = `${tour.price} RUB / ${tour.duration} дней`;
+  /*let newDateFrom = new Date(tour.dateFrom).toLocaleDateString();
+  let newDateTo = new Date(tour.dateTo).toLocaleDateString();*/
+  
+  
+  const durationPrice = `${tour.price} RUB / ${tour.duration}`;
   const dates = `${tour.dateFrom} - ${tour.dateTo}`;
 
   const handleStartReservationClick = async (tour) => {

@@ -199,7 +199,7 @@
   }
 }
 
-.button {
+.button-hotel {
   border: 2px solid;
   border-radius: 9999px;
   background-color: white;
@@ -213,36 +213,36 @@
 }
 
 @media (min-width: 640px) {
-  .button {
+  .button-hotel {
     width: 224px;
   }
 }
 
-.button-cancel {
+.button-cancel-hotel {
   border-color: #3DD068;
-  color: #282828;
+  /*color: #282828;*/
 }
 
-.button-cancel:hover {
+.button-cancel-hotel:hover {
   background-color: rgba(61, 208, 104, 0.05);
 }
 
-.button-continue {
+.button-continue-hotel {
   border-color: #3DD068;
-  color: #282828;
+  /*color: #282828;*/
 }
 
-.button-continue:hover:not(:disabled) {
+.button-continue-hotel:hover:not(:disabled) {
   background-color: rgba(61, 208, 104, 0.05);
 }
 
-.button-disabled {
+.button-disabled-hotel {
   border-color: #cccccc;
   color: #bbbbbb;
   cursor: not-allowed;
 }
 
-.button-disabled:hover {
+.button-disabled-hotel:hover {
   background-color: white;
 }
 

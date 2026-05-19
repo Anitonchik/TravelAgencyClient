@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./ClientsPage.css";
 import СlientCard from "../../components/Client/Client";
 import Client from "../../client/ClientRq";
+import Reservation from "../../client/ReservationRq";
 
 export default function ClientsPage() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function ClientsPage() {
   const pageSize = 10;
   
   const clientApi = useMemo(() => new Client(), []);
+  const reservationApi = useMemo(() => new Reservation(), []);
   const searchTimeoutRef = useRef(null);
 
   const loadClients = useCallback(async (pageNum, resetList = false) => {
@@ -117,15 +119,47 @@ export default function ClientsPage() {
     };
   }, []);
 
-  const handleClientClick = (client) => {
+  const handleClientClick = async (client) => {
     if (reservationProcess && !tour) {
       navigate("/tours", { state: { reservationProcess: true, client: client } });
     } 
     else if (reservationProcess && tour) {
-      navigate("/flight", { state: { tour: tour, client: client, reservationProcess: reservationProcess } });
+      let reservation = {
+        reservationDate: new Date(),
+        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        clientId: client.id,
+        tourId: tour.id
+      }
+      
+      const res = await reservationApi.startReservation(reservation);
+      console.log(res)
+
+      reservation = {
+        id: res.id,
+        reservationDate: new Date(),
+        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        client: client,
+        tour: tour,
+        flightTo: null,
+        flightFrom: null,
+        hotel: null,
+        indicateTransfer: null,
+        indicateInsurance: null,
+        paymentType: null,
+        insuranceType: null
+      }
+
+      navigate("/flights", { 
+        state: { 
+          tour: tour, 
+          client: client, 
+          reservation: reservation,
+          reservationProcess: reservationProcess, 
+        } 
+      });
     }
     else {
-      navigate(`/clients/${client.id}`);
+      navigate(`/client`, { state: { client: client } });
     }
   };
 

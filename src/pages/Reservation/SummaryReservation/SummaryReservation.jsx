@@ -45,21 +45,11 @@ export default function SummaryReservation() {
   const totalPrice = tourPrice + outFlightPrice + retFlightPrice + hotelPrice;
 
   const canContinue = true; 
+
+   console.log(reservation);
   
   const handleContinue = async () => {
-    console.log({id: reservation.id,
-        reservationDate: reservation.reservationDate,
-        dateOfIssueOfTheVoucher: new Date(),
-        managerId: reservation.managerId,
-        clientId: reservation.client.id,
-        tourId: reservation.tour.id,
-        flightToId: reservation.flightTo.id,
-        flightFromId: reservation.flightFrom.id,
-        hotelId: reservation.hotel.id,
-        indicateTransfer: true,
-        indicateInsurance: true,
-        paymentType: paymentType,
-        insuranceType: insurance})
+   
     await reservationApi.endReservation({
         id: reservation.id,
         reservationDate: reservation.reservationDate,
@@ -76,7 +66,7 @@ export default function SummaryReservation() {
         insuranceType: insurance
     })
 
-    navigate("/payment", {
+    navigate("/voucher", {
       state: {
         reservationProcess,
         client,
@@ -192,7 +182,7 @@ export default function SummaryReservation() {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="button button-cancel"
+            className="button-summary button-cancel-summary"
           >
             Отменить
           </button>
@@ -200,7 +190,7 @@ export default function SummaryReservation() {
             type="button"
             disabled={!canContinue}
             onClick={handleContinue}
-            className={`button button-continue ${!canContinue ? "button-disabled" : ""}`}
+            className={`button-summary button-continue-summary ${!canContinue ? "button-disabled-summary" : ""}`}
           >
             Продолжить
           </button>

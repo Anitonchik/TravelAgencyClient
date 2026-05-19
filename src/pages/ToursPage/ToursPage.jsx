@@ -199,7 +199,7 @@ export default function ToursPage() {
     if (reservationProcess) {
       navigate("/tour", { state: { tour: tour, client: client, reservationProcess: reservationProcess } });
     } else {
-      navigate("/tour", { state: { reservationProcess: reservationProcess } });
+      navigate("/tour", { state: { tour: tour, reservationProcess: reservationProcess } });
     }
   };
 

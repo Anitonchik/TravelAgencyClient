@@ -49,6 +49,9 @@ export default function ReservationsMain() {
   const reservationApi = useMemo(() => new Reservation(), []);
   const clientApi = useMemo(() => new Client(), []);
 
+  const [selected, setSelected] = useState(null);
+  
+
   useEffect(() => {
     reservationApi.getCounts()
       .then(data => {
@@ -266,6 +269,11 @@ export default function ReservationsMain() {
     };
   }, []);
 
+  const handleReservationClick = (reservation) => {
+    setSelected(reservation);
+    navigate(`/reservation`, { state: { reservation: reservation } });
+  };
+
   const getStatusPillClass = (status) => {
     const classes = {
       CONFIRMED: "status-pill-CONFIRMED",
@@ -409,6 +417,8 @@ export default function ReservationsMain() {
               <ReservationCard
                 key={booking.id}
                 dto={booking}
+                selected={selected?.id === booking.id}
+                onClick={() => handleReservationClick(booking)}
               />
             ))
           ) : (

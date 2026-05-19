@@ -1,0 +1,340 @@
+/* VoucherDisplay.css - единый стиль с предыдущими страницами */
+
+.voucher-booking {
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.voucher-main {
+  flex: 1;
+  max-width: 896px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 32px 16px;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .voucher-main {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+.client-info {
+  color: #282828;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 640px) {
+  .client-info {
+    font-size: 18px;
+  }
+}
+
+.voucher-card {
+  background-color: #EFEFEF;
+  border: 2px solid #FFB411;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 640px) {
+  .voucher-card {
+    padding: 28px;
+  }
+}
+
+.voucher-title {
+  font-weight: 700;
+  color: #282828;
+  font-size: 20px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.voucher-info {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+.info-value {
+  font-weight: 500;
+  color: #282828;
+  font-size: 14px;
+  text-align: right;
+}
+
+@media (min-width: 640px) {
+  .info-label,
+  .info-value {
+    font-size: 15px;
+  }
+}
+
+/* Блок с опциями и флажками */
+.options-container {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.options-title {
+  font-weight: 600;
+  color: #282828;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.checkbox-label:hover {
+  background-color: #f5f5f5;
+}
+
+.checkbox-input {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+  accent-color: #FFB411;
+}
+
+.checkbox-text {
+  font-size: 15px;
+  color: #282828;
+  font-weight: 500;
+}
+
+.badge-available {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: normal;
+  color: #3DD068;
+  background-color: rgba(61, 208, 104, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+/* PDF просмотрщик */
+.pdf-container {
+  margin-top: 24px;
+}
+
+.pdf-title {
+  font-weight: 600;
+  color: #282828;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.pdf-viewer {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: white;
+  min-height: 500px;
+  width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background-color: white;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #FFB411;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #666;
+  font-size: 14px;
+}
+
+.error-message {
+  padding: 16px;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 12px;
+  color: #c33;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.no-pdf-message {
+  padding: 60px 20px;
+  background-color: white;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  color: #999;
+}
+
+/* Кнопки */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.button {
+  border: 2px solid;
+  border-radius: 9999px;
+  background-color: white;
+  padding: 14px 0;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+}
+
+@media (min-width: 640px) {
+  .button {
+    width: 280px;
+  }
+}
+
+.button-generate {
+  border-color: #FFB411;
+  color: #282828;
+  width: 100%;
+  padding: 16px 0;
+  font-size: 16px;
+  background-color: #FFB411;
+}
+
+.button-generate:hover:not(:disabled) {
+  background-color: #e6a20f;
+}
+
+.button-generate:disabled {
+  border-color: #cccccc;
+  background-color: #cccccc;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.button-email {
+  border-color: #FFB411;
+  color: #282828;
+}
+
+.button-email:hover:not(:disabled) {
+  background-color: rgba(255, 180, 17, 0.05);
+}
+
+.button-complete {
+  border-color: #3DD068;
+  color: #282828;
+}
+
+.button-complete:hover {
+  background-color: rgba(61, 208, 104, 0.05);
+}
+
+.button-disabled {
+  border-color: #cccccc;
+  color: #bbbbbb;
+  cursor: not-allowed;
+}
+
+.button-disabled:hover {
+  background-color: white;
+}
+
+.email-sent-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3DD068;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease;
+  z-index: 1000;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}

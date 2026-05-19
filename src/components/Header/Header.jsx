@@ -18,7 +18,8 @@ export default function Header() {
         <nav className="nav">
           <Link to="/" className="nav-link">Бронирования</Link>
           <Link to="/clients" className="nav-link">Клиенты</Link>
-          <Link to="/profile" className="nav-link">Профиль</Link>
+          <Link to="/tours" className="nav-link">Туры</Link>
+          <Link to="/manager/profile" className="nav-link">Профиль</Link>
           <Link to="/logout" className="nav-link">Выйти</Link>
           
         </nav>

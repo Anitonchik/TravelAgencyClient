@@ -18,15 +18,17 @@ const STATUS_CONFIG = {
   },
 };
 
-export default function ReservationCard({ dto }) {
+export default function ReservationCard({ dto, selected, onClick }) {
   const { label, bgClass, textClass } = STATUS_CONFIG[dto.status];
 
   let dateFrom = new Date(dto.tour.dateFrom).toISOString().split("T")[0];
   let dateTo = new Date(dto.tour.dateTo).toISOString().split("T")[0];
 
   return (
-    <div className="booking-card">
-      {/* Информация о бронировании */}
+    <div 
+      className={`booking-card ${selected ? "booking-card-selected" : ""}`}
+      onClick={onClick}
+    >
       <div className="booking-card-info">
         <p className="booking-card-text">
           <span className="booking-card-label">Тур: </span>
@@ -42,7 +44,6 @@ export default function ReservationCard({ dto }) {
         </p>
       </div>
 
-      {/* Статус бронирования */}
       <div className="booking-card-status-wrapper">
         <span className={`booking-card-status ${bgClass} ${textClass}`}>
           {label}

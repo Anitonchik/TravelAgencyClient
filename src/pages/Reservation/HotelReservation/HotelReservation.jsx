@@ -4,17 +4,14 @@ import "./HotelReservation.css";
 import HotelCard from "../../../components/Hotel/Hotel";
 
 export default function HotelReservation() {
-  console.log
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Получаем данные из состояния
   const reservationProcess = location.state?.reservationProcess;
   const client = location.state?.client;
   const tour = location.state?.tour;
   const reservation = location.state?.reservation;
 
-  // Состояния
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
@@ -22,14 +19,9 @@ export default function HotelReservation() {
   const [loading, setLoading] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
 
-  // Получаем отели из тура
   const tourHotels = tour?.hotels || [];
-  console.log("Отели в туре:", tourHotels);
-
-  // Проверка на наличие отелей в туре
   const hasHotels = tourHotels.length > 0;
 
-  // Эффект для фильтрации отелей при поиске
   useEffect(() => {
     if (searchQuery.trim() === "") {
       setFilteredHotels(hotels);
@@ -42,8 +34,7 @@ export default function HotelReservation() {
     }
   }, [searchQuery, hotels]);
 
-  // Функция поиска отелей
-  const searchHotels = async () => {
+  const searchHotels = () => {
     if (!searchQuery.trim()) {
       alert("Введите название отеля или локацию для поиска");
       return;
@@ -53,26 +44,30 @@ export default function HotelReservation() {
     setSearchPerformed(true);
     
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/hotels/search?query=${encodeURIComponent(searchQuery)}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const allHotels = [];
+      
+      tourHotels.forEach(tourHotel => {
+        if (!allHotels.some(h => h.id === tourHotel.id)) {
+          allHotels.push(tourHotel);
         }
+      });
+      
+      tour?.availableHotels?.forEach(availableHotel => {
+        if (!allHotels.some(h => h.id === availableHotel.id)) {
+          allHotels.push(availableHotel);
+        }
+      });
+      
+      const filtered = allHotels.filter(hotel =>
+        hotel.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        hotel.location?.toLowerCase().includes(searchQuery.toLowerCase())
       );
       
-      if (!response.ok) {
-        throw new Error("Ошибка при поиске отелей");
-      }
-      
-      const data = await response.json();
-      setHotels(data);
-      setFilteredHotels(data);
+      setHotels(filtered);
+      setFilteredHotels(filtered);
     } catch (error) {
-      console.error("Ошибка поиска:", error);
-      alert("Не удалось выполнить поиск. Попробуйте позже.");
+      console.error("Ошибка фильтрации:", error);
+      alert("Не удалось выполнить поиск");
       setHotels([]);
       setFilteredHotels([]);
     } finally {
@@ -80,15 +75,12 @@ export default function HotelReservation() {
     }
   };
 
-  // Выбор отеля
   const handleSelectHotel = (hotel) => {
     setSelectedHotel(hotel);
   };
 
-  // Расчет общей стоимости
   const totalPrice = selectedHotel?.price || 0;
 
-  // Проверка возможности продолжить
   const canContinue = hasHotels && selectedHotel;
 
   const handleContinue = async () => {
@@ -109,19 +101,16 @@ export default function HotelReservation() {
   return (
     <div className="hotel-booking">
       <main className="hotel-main">
-        {/* Информация о клиенте */}
         <p className="client-info">
           Выбор отеля для клиента {client?.lastName} {client?.firstName} {client?.surName}
         </p>
 
-        {/* Название тура */}
         <div className="tour-pill">
           <span className="tour-name">
             {tour?.name}
           </span>
         </div>
 
-        {/* Основная карточка отелей */}
         <div className="hotels-card">
           <h2 className="hotels-title">Отели</h2>
 
@@ -148,7 +137,6 @@ export default function HotelReservation() {
               </button>
             </div>
 
-            {/* Результаты поиска */}
             {searchPerformed && (
               <div className="search-results">
                 {loading ? (
@@ -173,7 +161,6 @@ export default function HotelReservation() {
             )}
           </section>
 
-          {/* Блок отелей из тура */}
           <section className="hotels-section">
             <p className="hotel-route">
               Доступные отели в туре
@@ -197,11 +184,6 @@ export default function HotelReservation() {
           </section>
 
           <div className="divider" />
-
-          {/* Поиск дополнительных отелей */}
-          
-
-          {/* Итоговая информация */}
           {selectedHotel && (
             <div className="summary">
               <span className="summary-route">
@@ -213,7 +195,6 @@ export default function HotelReservation() {
             </div>
           )}
           
-          {/* Предупреждение об отсутствии отелей */}
           {(!hasHotels) && (
             <div className="warning-message">
               Невозможно забронировать отель: отсутствуют доступные отели в туре
@@ -221,12 +202,11 @@ export default function HotelReservation() {
           )}
         </div>
 
-        {/* Кнопки действий */}
         <div className="actions">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="button button-cancel"
+            className="button-hotel button-cancel-hotel "
           >
             Отменить
           </button>
@@ -234,7 +214,7 @@ export default function HotelReservation() {
             type="button"
             disabled={!canContinue}
             onClick={handleContinue}
-            className={`button button-continue ${!canContinue ? "button-disabled" : ""}`}
+            className={`button-hotel button-continue-hotel ${!canContinue ? "button-disabled-hotel" : ""}`}
           >
             Продолжить
           </button>

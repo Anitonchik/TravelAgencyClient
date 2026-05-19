@@ -20,8 +20,8 @@ export default function FlightReservation() {
   const [selectedOutbound, setSelectedOutbound] = useState(null);
   const [selectedReturn, setSelectedReturn] = useState(null);
 
-  const outFlight = OUTBOUND_FLIGHTS?.find((f) => f.id === selectedOutbound);
-  const retFlight = RETURN_FLIGHTS?.find((f) => f.id === selectedReturn);
+  const outFlight = OUTBOUND_FLIGHTS?.find((f) => f.id === selectedOutbound?.id);
+  const retFlight = RETURN_FLIGHTS?.find((f) => f.id === selectedReturn?.id);
 
   const totalPrice =
     (outFlight ? parseInt(outFlight.price || "0") : 0) +
@@ -153,7 +153,7 @@ export default function FlightReservation() {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="button button-cancel"
+            className="button-flight button-cancel-flight"
           >
             Отменить
           </button>
@@ -161,7 +161,7 @@ export default function FlightReservation() {
             type="button"
             disabled={!canContinue}
             onClick={() => handleStartReservationClick()}
-            className={`button button-continue ${!canContinue ? "button-disabled" : ""}`}
+            className={`button-flight button-continue-flight ${!canContinue ? "button-disabled-flight" : ""}`}
           >
             Продолжить
           </button>

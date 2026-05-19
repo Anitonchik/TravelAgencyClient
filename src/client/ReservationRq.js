@@ -1,4 +1,4 @@
-import {getRequest, postRequest, putRequest, deleteRequest} from "./requests";
+import {getRequest, postRequest, putRequest, deleteRequest, postRequestBlob} from "./requests";
 
 export default class Reservation {
 
@@ -88,7 +88,7 @@ export default class Reservation {
     }
 
     async getVoucher(voucherData) {
-        return postRequest(`${this.URL}/voucher`, voucherData);
+        return postRequestBlob(`${this.URL}/voucher`, voucherData);
     }
 
     async sendToEmail(id) {

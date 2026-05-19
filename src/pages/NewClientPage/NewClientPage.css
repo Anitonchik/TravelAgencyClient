@@ -1,0 +1,407 @@
+/* NewClient.css - единый стиль с остальными страницами */
+
+.new-client-page {
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.new-client-main {
+  flex: 1;
+  max-width: 896px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 32px 16px;
+}
+
+@media (min-width: 640px) {
+  .new-client-main {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+.new-client-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #282828;
+  margin-bottom: 28px;
+}
+
+@media (min-width: 640px) {
+  .new-client-title {
+    font-size: 24px;
+  }
+}
+
+.new-client-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.passport-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field-full {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  display: block;
+  color: #282828;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  background-color: #F0F0F0;
+  border: 2px solid #FFB411;
+  border-radius: 14px;
+  padding: 14px 20px;
+  color: #282828;
+  font-weight: 500;
+  font-size: 14px;
+  outline: none;
+  text-align: center;
+  transition: all 0.2s ease;
+  font-family: 'Nunito', sans-serif;
+}
+
+.form-input:focus {
+  ring: 2px solid rgba(255, 180, 17, 0.3);
+  border-color: #FFB411;
+}
+
+.form-input::placeholder {
+  color: #bbb;
+}
+
+@media (min-width: 640px) {
+  .form-input {
+    font-size: 16px;
+  }
+}
+
+.form-textarea {
+  width: 100%;
+  background-color: #F0F0F0;
+  border: 2px solid #FFB411;
+  border-radius: 14px;
+  padding: 14px 20px;
+  color: #282828;
+  font-weight: 500;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.form-textarea:focus {
+  ring: 2px solid rgba(255, 180, 17, 0.3);
+  border-color: #FFB411;
+}
+
+.form-textarea::placeholder {
+  color: #bbb;
+}
+
+@media (min-width: 640px) {
+  .form-textarea {
+    font-size: 16px;
+  }
+}
+
+/* File upload styles */
+.file-upload-container {
+  background-color: #F0F0F0;
+  border: 2px solid #FFB411;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .file-upload-container {
+    flex-direction: row;
+    gap: 12px;
+  }
+}
+
+.file-dropzone {
+  flex: 1;
+  border: 2px solid #FFB411;
+  border-radius: 10px;
+  background-color: #F6F6F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.file-dropzone:hover {
+  background-color: rgba(255, 180, 17, 0.05);
+}
+
+.file-info {
+  text-align: center;
+}
+
+.file-count {
+  font-size: 14px;
+  font-weight: 500;
+  color: #282828;
+  margin-bottom: 4px;
+}
+
+.file-names {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.add-files-button {
+  border: 2px solid #3DD068;
+  border-radius: 10px;
+  background-color: white;
+  padding: 32px 20px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #282828;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .add-files-button {
+    width: 192px;
+    padding: 0 20px;
+  }
+}
+
+.add-files-button:hover {
+  background-color: rgba(61, 208, 104, 0.05);
+}
+
+/* Action buttons */
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+}
+
+@media (min-width: 640px) {
+  .form-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.button-cancel,
+.button-submit {
+  border: 2px solid #3DD068;
+  border-radius: 9999px;
+  background-color: white;
+  padding: 16px 0;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+  color: #282828;
+}
+
+@media (min-width: 640px) {
+  .button-cancel,
+  .button-submit {
+    width: 256px;
+  }
+}
+
+.button-cancel:hover,
+.button-submit:hover {
+  background-color: rgba(61, 208, 104, 0.05);
+}
+
+/* Footer */
+.new-client-footer {
+  background-color: #EFEFEF;
+  border-top: 2px solid rgba(255, 180, 17, 0.4);
+  padding: 24px 16px;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.footer-text {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .footer-text {
+    font-size: 15px;
+  }
+}
+
+/* Стили для трех колонок */
+.form-row-three {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .form-row-three {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Стили для ошибок */
+.form-input-error {
+  border-color: #ff4444 !important;
+  background-color: #fff5f5 !important;
+}
+
+.form-error {
+  display: block;
+  color: #ff4444;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-left: 12px;
+}
+
+/* Модальное окно */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: 20px;
+  border: 2px solid #FFB411;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #EFEFEF;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #282828;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: #ff4444;
+}
+
+.modal-body {
+  padding: 24px 20px;
+}
+
+.modal-message {
+  font-size: 15px;
+  color: #282828;
+  margin: 0;
+  text-align: center;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-button {
+  border: 2px solid #3DD068;
+  border-radius: 9999px;
+  background-color: white;
+  padding: 10px 32px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  color: #282828;
+}
+
+.modal-button:hover {
+  background-color: rgba(61, 208, 104, 0.05);
+}
+
+.button-disabled {
+  border-color: #cccccc;
+  color: #bbbbbb;
+  cursor: not-allowed;
+}
+
+.button-disabled:hover {
+  background-color: white;
+}

@@ -190,7 +190,7 @@
   }
 }
 
-.button {
+.button-summary {
   border: 2px solid;
   border-radius: 9999px;
   background-color: white;
@@ -204,36 +204,36 @@
 }
 
 @media (min-width: 640px) {
-  .button {
+  .button-summary {
     width: 224px;
   }
 }
 
-.button-cancel {
+.button-cancel-summary {
   border-color: #3DD068;
   color: #282828;
 }
 
-.button-cancel:hover {
+.button-cancel-summary:hover {
   background-color: rgba(61, 208, 104, 0.05);
 }
 
-.button-continue {
+.button-continue-summary {
   border-color: #3DD068;
   color: #282828;
 }
 
-.button-continue:hover:not(:disabled) {
+.button-continue-summary:hover:not(:disabled) {
   background-color: rgba(61, 208, 104, 0.05);
 }
 
-.button-disabled {
+.button-disabled-summary {
   border-color: #cccccc;
   color: #bbbbbb;
   cursor: not-allowed;
 }
 
-.button-disabled:hover {
+.button-disabled-summary:hover {
   background-color: white;
 }
 

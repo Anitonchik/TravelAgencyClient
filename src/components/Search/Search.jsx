@@ -9,11 +9,10 @@ export default function SearchSection({ onSearch }) {
   const [checkOut, setCheckOut] = useState("");
   const [region, setRegion] = useState("Все");
 
-  const filteredHotels = []; // Ваша логика фильтрации
+  const filteredHotels = [];
 
   return (
     <>
-      {/* Search bar */}
       <div className="search-container">
         <div className="search-form">
           <div className="search-field">
@@ -57,24 +56,3 @@ export default function SearchSection({ onSearch }) {
     </>
   );
 }
-
-{/* Filters + Results 
-      <section className="results-section">
-        
-        <div className="region-filters">
-          {REGIONS.map((r) => (
-            <button
-              key={r}
-              onClick={() => setRegion(r)}
-              className={`region-button ${region === r ? "region-button-active" : "region-button-inactive"}`}
-            >
-              {r}
-            </button>
-          ))}
-        </div>
-
-        
-        <p className="results-count">
-          Найдено отелей: <span className="results-count-number">{filteredHotels.length}</span>
-        </p>
-      </section>*/}

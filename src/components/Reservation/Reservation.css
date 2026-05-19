@@ -9,6 +9,22 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 1.25rem;
   width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.booking-card:hover {
+  background-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Стиль для выбранной карточки */
+.booking-card-selected {
+  border: 3px solid #3DD068;
+  background-color: rgba(61, 208, 104, 0.05);
+  box-shadow: 0 4px 12px rgba(61, 208, 104, 0.2);
 }
 
 @media (min-width: 640px) {
@@ -63,6 +79,7 @@
   font-weight: 500;
   font-size: 0.875rem;
   white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
 @media (min-width: 640px) {

@@ -32,37 +32,18 @@ export default class Client {
         });
     }
 
-    async getByStatus(status, pageNumber, pageSize) {
-        return getRequest(`${this.URL}/byStatus`, { 
-            params: {
-                status: status,
-                pageNumber: pageNumber,
-                pageSize: pageSize
-            } 
-        });
-    }
-
     async getById(id) {
         return getRequest(`${this.URL}/${id}`);
     }
 
-    async create(reservationData) {
-        return postRequest(this.URL, reservationData);
+    async create(clientData) {
+        return postRequest(this.URL, clientData);
     }
-
-    async getVoucher(voucherData) {
-        return postRequest(`${this.URL}/voucher`, voucherData);
-    }
-
-    async sendToEmail(id) {
-        return getRequest(`${this.URL}/voucher/send/${id}`);
+    async update(clientData, id) {
+        return putRequest(`${this.URL}/${id}`, clientData);
     }
 
     async delete(id) {
         return deleteRequest(`${this.URL}/${id}`);
-    }
-
-    async getCounts(){
-        return getRequest(`${this.URL}/counts`);
     }
 }
