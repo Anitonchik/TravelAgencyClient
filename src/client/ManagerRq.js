@@ -1,4 +1,4 @@
-import {getRequest, postRequest, putRequest, deleteRequest} from "./requests";
+import {getRequest, postRequest, putRequest, deleteRequest, postRequestLogin} from "./requests";
 
 export default class Manager {
 
@@ -11,6 +11,10 @@ export default class Manager {
 
     async update(clientData, id) {
         return putRequest(`${this.URL}/${id}`, clientData);
+    }
+
+    async login(dto) {
+        
     }
 
 

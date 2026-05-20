@@ -1,10 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Header from './components/Header/header'
 import Footer from './components/Footer/Footer'
+import ProtectedRoute from './components/ProtectedRoute'
+
 import ReservationsMain from './pages/ReservationsMain/ReservationsMain'
 import ReservationDetails from './pages/ReservationDetailsPage/ReservationDetailsPage'
 import ClientsPage from './pages/ClientsPage/ClientsPage'
@@ -21,34 +20,139 @@ import ManagerProfile from './pages/ManagerProfilePage/ManagerProfilePage'
 import EditManagerPage from './pages/EditManagerPage/EditManagerPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <BrowserRouter>
-        <div>
-          <Header />
-          <Routes>
-              <Route path="/" element={<ReservationsMain />} />
-              <Route path="/clients" element={<ClientsPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="*" element={<ReservationsMain />} />
-              <Route path="/tours" element={<ToursPage />} />
-              <Route path="/tour" element={<TourDetailsPage />} />
-              <Route path="/flights" element={<FlightReservation />} />
-              <Route path="/hotels" element={<HotelReservation />} />
-              <Route path="/summary-reservation" element={<SummaryReservation />}/>
-              <Route path="/voucher" element={<VoucherDisplay />}/>
-              <Route path="/clients/create" element={<NewClientPage />}/>
-              <Route path="/client" element={<ClientDetailsPage />}/>
-              <Route path="/manager/profile" element={<ManagerProfile />}/>
-              <Route path="/manager/edit" element={<EditManagerPage />}/>
-              <Route path="/reservation" element={<ReservationDetails />} />
-          </Routes>
-          <Footer />
-        </div>
-      </BrowserRouter>
-  );
-  
+      <div>
+        <Header />
+        <Routes>
+          {/* Публичный маршрут - доступен без авторизации */}
+          <Route path="/login" element={<LoginPage />} />
+          
+          {/* Защищённые маршруты - требуют авторизации */}
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute>
+                <ReservationsMain />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/clients" 
+            element={
+              <ProtectedRoute>
+                <ClientsPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/tours" 
+            element={
+              <ProtectedRoute>
+                <ToursPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/tour" 
+            element={
+              <ProtectedRoute>
+                <TourDetailsPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/flights" 
+            element={
+              <ProtectedRoute>
+                <FlightReservation />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/hotels" 
+            element={
+              <ProtectedRoute>
+                <HotelReservation />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/summary-reservation" 
+            element={
+              <ProtectedRoute>
+                <SummaryReservation />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/voucher" 
+            element={
+              <ProtectedRoute>
+                <VoucherDisplay />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/clients/create" 
+            element={
+              <ProtectedRoute>
+                <NewClientPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/client" 
+            element={
+              <ProtectedRoute>
+                <ClientDetailsPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/manager/profile" 
+            element={
+              <ProtectedRoute>
+                <ManagerProfile />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/manager/edit" 
+            element={
+              <ProtectedRoute>
+                <EditManagerPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/reservation" 
+            element={
+              <ProtectedRoute>
+                <ReservationDetails />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* 404 - любая другая страница - перенаправляем на главную */}
+          <Route path="*" element={<ReservationsMain />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
+  )
 }
 
 export default App

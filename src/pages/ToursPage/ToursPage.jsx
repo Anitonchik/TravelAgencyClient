@@ -280,7 +280,6 @@ export default function ToursPage() {
           </div>
         </main>
 
-        {/* Фильтры туров - всегда справа */}
         <aside className="sidebar-tours-page filters-sidebar">
           <div className="filters-card">
             <h3 className="filters-title">Фильтры туров</h3>

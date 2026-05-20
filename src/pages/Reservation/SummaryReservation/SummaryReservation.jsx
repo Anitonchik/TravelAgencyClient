@@ -81,18 +81,15 @@ export default function SummaryReservation() {
   return (
     <div className="summary-booking">
       <main className="summary-main">
-        {/* Информация о клиенте */}
         <p className="client-info">
           Итоги бронирования для клиента {client?.lastName} {client?.firstName} {client?.surName}
         </p>
 
-        {/* Карточка тура */}
         <div className="summary-section">
           <h2 className="section-title">Тур</h2>
           <TourCard tour={tour} onClick={() => {}} />
         </div>
 
-        {/* Перелёты */}
         <div className="summary-section">
           <h2 className="section-title">Авиабилеты</h2>
           <div className="flights-container">
@@ -115,17 +112,14 @@ export default function SummaryReservation() {
           </div>
         </div>
 
-        {/* Отель */}
         <div className="summary-section">
           <h2 className="section-title">Отель</h2>
           <HotelCard hotel={hotel} selected={false} onSelect={() => {}} />
         </div>
 
-        {/* Дополнительные опции */}
         <div className="summary-section">
           <h2 className="section-title">Дополнительно</h2>
 
-          {/* Страховка */}
           <div className="option-group">
             <p className="option-label">Страховка</p>
             <div className="insurance-options">
@@ -152,7 +146,6 @@ export default function SummaryReservation() {
             </div>
           </div>
 
-          {/* Тип оплаты */}
           <div className="option-group">
             <p className="option-label">Способ оплаты</p>
             <div className="payment-options">
@@ -171,13 +164,11 @@ export default function SummaryReservation() {
           </div>
         </div>
 
-        {/* Итоговая стоимость */}
         <div className="summary-total">
           <span className="total-label">Общая стоимость:</span>
           <span className="total-price">{formatPrice(totalPrice)}</span>
         </div>
 
-        {/* Кнопки действий */}
         <div className="actions">
           <button
             type="button"

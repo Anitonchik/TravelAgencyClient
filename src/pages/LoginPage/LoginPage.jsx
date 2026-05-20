@@ -1,16 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { postRequestLogin } from "../../client/requests";
 import "./LoginPage.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [login, setLogin] = useState("Антонова Анита Александровна");
-  const [password, setPassword] = useState("123456");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/");
+    
+    const userDt = await postRequestLogin(`http://localhost:8080/login`, {
+      login: login,
+      password: password,
+    });
+    console.log("Ответ от сервера:", userDt);
+
+    localStorage.setItem('userId', userDt.id);
+    localStorage.setItem('token', userDt.jwt);
+
+    setTimeout(() => {
+      navigate("/");
+    }, 100);
   };
+
 
   return (
     <div className="login-container">

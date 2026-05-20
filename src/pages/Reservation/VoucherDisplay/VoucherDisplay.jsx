@@ -76,7 +76,6 @@ export default function VoucherDisplay() {
   return (
     <div className="voucher-booking">
       <main className="voucher-main">
-        {/* Информация о клиенте */}
         <p className="client-info">
           Генерация ваучера для клиента {client?.lastName} {client?.firstName} {client?.surName}
         </p>
@@ -84,7 +83,6 @@ export default function VoucherDisplay() {
         <div className="voucher-card">
           <h2 className="voucher-title">Ваучер на бронирование</h2>
           
-          {/* Информация о бронировании */}
           <div className="voucher-info">
             <div className="info-row">
               <span className="info-label">Номер бронирования:</span>
@@ -116,7 +114,6 @@ export default function VoucherDisplay() {
             </div>
           </div>
 
-          {/* Блок выбора отображаемой информации */}
           <div className="options-container">
             <h3 className="options-title">Выберите информацию для отображения в ваучере</h3>
             <div className="checkbox-group">
@@ -151,7 +148,6 @@ export default function VoucherDisplay() {
               </label>
             </div>
 
-            {/* Кнопка генерации ваучера */}
             <button
               type="button"
               onClick={handleGenerateVoucher}
@@ -162,12 +158,10 @@ export default function VoucherDisplay() {
             </button>
           </div>
 
-          {/* Отображение ошибки */}
           {error && (
             <div className="error-message">{error}</div>
           )}
 
-          {/* PDF просмотрщик (показывается только после генерации) */}
           {voucherGenerated && pdfUrl && !loading && (
             <div className="pdf-container">
               <h3 className="pdf-title">Ваш ваучер</h3>
@@ -183,7 +177,6 @@ export default function VoucherDisplay() {
             </div>
           )}
 
-          {/* Кнопки действий (показываются только после генерации ваучера) */}
           {voucherGenerated && pdfUrl && (
             <div className="actions">
               <button
@@ -205,7 +198,6 @@ export default function VoucherDisplay() {
           )}
         </div>
 
-        {/* Уведомление об успешной отправке */}
         {emailSent && (
           <div className="email-sent-notification">
             Ваучер успешно отправлен на почту клиента!

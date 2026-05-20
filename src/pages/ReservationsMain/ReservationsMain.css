@@ -490,7 +490,8 @@
   cursor: pointer;
   transition: all 0.2s;
   background-color: white;
-}
+  word-break: break-all;
+} 
 
 .client-item:hover {
   border-color: #FFB411;

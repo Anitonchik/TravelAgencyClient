@@ -75,16 +75,21 @@ export default function NewClient() {
   };
 
   const validateBirthDate = (value) => {
-    if (!value) return "Дата рождения обязательна";
-    const birthDate = new Date(value);
-    const today = new Date();
-    if (isNaN(birthDate.getTime())) return "Неверный формат даты";
-    if (birthDate > today) return "Дата рождения не может быть в будущем";
-    const age = today.getFullYear() - birthDate.getFullYear();
-    if (age < 18) return "Клиент должен быть старше 18 лет";
-    if (age > 120) return "Некорректная дата рождения";
-    return "";
-  };
+  if (!value) return "Дата рождения обязательна";
+  const birthDate = new Date(value);
+  const today = new Date();
+  if (isNaN(birthDate.getTime())) return "Неверный формат даты";
+  if (birthDate > today) return "Дата рождения не может быть в будущем";
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  const dayDiff = today.getDate() - birthDate.getDate();
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    age--;
+  }  
+  if (age < 18) return "Клиент должен быть старше 18 лет";
+  if (age > 120) return "Некорректная дата рождения";
+  return "";
+};
 
   const validatePhone = (value) => {
     if (!value || value.trim().length === 0) return "Телефон обязателен";

@@ -35,14 +35,12 @@ export default function ReservationsMain() {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   
-  // Состояния для модального окна клиентов
   const [clientsSearch, setClientsSearch] = useState("");
   const [clientsPage, setClientsPage] = useState(0);
   const [clientsTotalPages, setClientsTotalPages] = useState(0);
   const [clientsTotalElements, setClientsTotalElements] = useState(0);
   const clientsPageSize = 5;
   
-  // Таймер для поиска
   const searchTimeoutRef = useRef(null);
   const clientsSearchTimeoutRef = useRef(null);
   
@@ -61,7 +59,6 @@ export default function ReservationsMain() {
       .catch(error => console.error("Ошибка при получении количества бронирований:", error));
   }, []);
 
-  // Загрузка клиентов для модального окна с поиском и пагинацией
   const loadClients = async (page, search) => {
     setIsLoadingClients(true);
     try {
@@ -431,7 +428,6 @@ export default function ReservationsMain() {
         </div>
       </main>
 
-      {/* Модальное окно со списком клиентов с поиском и пагинацией */}
       {showClientsList && (
         <div className="modal-overlay" onClick={() => setShowClientsList(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -440,7 +436,6 @@ export default function ReservationsMain() {
               <button className="modal-close" onClick={() => setShowClientsList(false)}>✕</button>
             </div>
             <div className="modal-body">
-              {/* Поиск клиентов */}
               <div className="clients-search-container">
                 <input
                   type="text"
@@ -451,7 +446,6 @@ export default function ReservationsMain() {
                 />
               </div>
               
-              {/* Список клиентов */}
               {isLoadingClients ? (
                 <div className="loading-clients">Загрузка клиентов...</div>
               ) : clients.length > 0 ? (

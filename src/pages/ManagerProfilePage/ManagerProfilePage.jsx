@@ -13,7 +13,7 @@ export default function ManagerProfile() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
-  const managerId = 1;
+  const managerId = localStorage.getItem('userId');
 
   useEffect(() => {
     if (managerId) {

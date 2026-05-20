@@ -3,14 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Reservation from "../../../client/ReservationRq";
 import "./TourDetails.css";
 
-// Маппинг типов туров
 const TOUR_TYPE_MAP = {
   excursion: "Экскурсионный",
   HEALTH: "Оздоровительный",
   SPORTS: "Спортивный"
 };
 
-// Маппинг интенсивности туров
 const TOUR_INTENSITY_MAP = {
   Passive: "Пассивный",
   Usual: "Обычный",
@@ -23,8 +21,8 @@ export default function TourDetailsPage() {
   const reservationProcess = location.state?.reservationProcess;
   const client = location.state?.client;
   const tour = location.state?.tour;
+  const managerId = localStorage.getItem('userId');
 
-  // Получаем русские названия для типа тура и интенсивности
   const tourTypeTitle = useMemo(() => {
     return TOUR_TYPE_MAP[tour.tourType] || tour.tourType || "Не указан";
   }, [tour.tourType]);
@@ -34,10 +32,6 @@ export default function TourDetailsPage() {
   }, [tour.intensity]);
 
   const reservationApi = useMemo(() => new Reservation(), []);
-
-  /*let newDateFrom = new Date(tour.dateFrom).toLocaleDateString();
-  let newDateTo = new Date(tour.dateTo).toLocaleDateString();*/
-  
   
   const durationPrice = `${tour.price} RUB / ${tour.duration}`;
   const dates = `${tour.dateFrom} - ${tour.dateTo}`;
@@ -46,7 +40,7 @@ export default function TourDetailsPage() {
     if (reservationProcess) {
       let reservation = {
         reservationDate: new Date(),
-        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        managerId: managerId,
         clientId: client.id,
         tourId: tour.id
       }
@@ -58,7 +52,7 @@ export default function TourDetailsPage() {
       reservation = {
         id: res.id,
         reservationDate: new Date(),
-        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        managerId: managerId,
         client: client,
         tour: tour,
         flightTo: null,
@@ -119,7 +113,6 @@ export default function TourDetailsPage() {
           />
         </div>
 
-        {/* Activity + Tour type row */}
         <div className="info-row">
           <p className="info-text">
             Интенсивность:{" "}
@@ -131,14 +124,12 @@ export default function TourDetailsPage() {
           </p>
         </div>
 
-        {/* Description */}
         <div className="description-container">
           <p key={"desc"} className="description-text">
             {tour.description}
           </p>
         </div>
 
-        {/* Price pills row */}
         <div className="price-row">
           <div className="price-pill price-pill-left">
             <span className="price-text">
@@ -153,7 +144,6 @@ export default function TourDetailsPage() {
           </div>
         </div>
 
-        {/* CTA Button — green border */}
         <div className="cta-container">
           <button
             onClick={() => handleStartReservationClick(tour)}
