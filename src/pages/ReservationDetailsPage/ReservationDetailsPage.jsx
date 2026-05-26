@@ -69,6 +69,28 @@ export default function ReservationDetails() {
     });
   };
 
+  const handleCancelReservation = async () => {
+    console.log(reservation)
+    
+    const reservationData = {
+      id: reservation.id,
+      reservationDate: reservation.reservationDate,
+      dateOfIssueOfTheVoucher: new Date().toISOString(),
+      managerId: reservation.manager.id,
+      clientId: reservation.client.id,
+      tourId: reservation.tour.id,
+      flightToId: reservation.flightTo.id,
+      flightFromId: reservation.flightFrom.id,
+      hotelId: reservation.hotel.id,
+      indicateTransfer: false,
+      indicateInsurance: false,
+      paymentType: "CASH",
+      insuranceType: "NO"
+    };
+    await reservationApi.cancel(reservationData);
+
+  }
+
   const handleBack = () => {
     navigate(-1);
   };
@@ -179,7 +201,6 @@ export default function ReservationDetails() {
             </div>
           </div>
 
-          {/* Информация о туре */}
           <div className="details-section">
             <h2 className="section-title">Информация о туре</h2>
             <div className="details-grid">
@@ -208,11 +229,9 @@ export default function ReservationDetails() {
             </div>
           </div>
 
-          {/* Информация о перелетах */}
           <div className="details-section">
             <h2 className="section-title">Информация о перелетах</h2>
             
-            {/* Перелет туда */}
             <div className="flight-details">
               <p className="flight-direction-title">Ульяновск → {reservation.tour?.direction}</p>
               {reservation.flightTo ? (
@@ -237,7 +256,6 @@ export default function ReservationDetails() {
               )}
             </div>
 
-            {/* Перелет обратно */}
             <div className="flight-details">
               <p className="flight-direction-title">{reservation.tour?.direction} → Ульяновск</p>
               {reservation.flightFrom ? (
@@ -263,7 +281,6 @@ export default function ReservationDetails() {
             </div>
           </div>
 
-          {/* Информация об отеле */}
           <div className="details-section">
             <h2 className="section-title">Информация об отеле</h2>
             {reservation.hotel ? (
@@ -294,7 +311,6 @@ export default function ReservationDetails() {
             )}
           </div>
 
-          {/* Дополнительные услуги */}
           <div className="details-section">
             <h2 className="section-title">Дополнительные услуги</h2>
             <div className="details-grid">
@@ -319,14 +335,12 @@ export default function ReservationDetails() {
             </div>
           </div>
 
-          {/* Итоговая стоимость */}
           <div className="summary-total">
             <span className="total-label">Общая стоимость:</span>
             <span className="total-price">{formatPrice(reservation.price)}</span>
           </div>
         </div>
 
-        {/* Кнопки действий */}
         <div className="details-actions">
           <button
             type="button"
@@ -337,13 +351,22 @@ export default function ReservationDetails() {
           </button>
           
           {isReservationComplete() ? (
-            <button
-              type="button"
-              onClick={handleViewVoucher}
-              className="button-back"
-            >
-              Посмотреть ваучер
-            </button>
+            <div className = "d-flex gap-3">
+              <button
+                type="button"
+                onClick={handleCancelReservation}
+                className="button-cancel-res"
+              >
+                Отменить бронирование
+              </button>
+              <button
+                type="button"
+                onClick={handleViewVoucher}
+                className="button-back"
+              >
+                Посмотреть ваучер
+              </button>
+            </div>
           ) : (
             <button
               type="button"
@@ -356,7 +379,6 @@ export default function ReservationDetails() {
         </div>
       </main>
 
-      {/* Модальное окно */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>

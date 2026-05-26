@@ -7,12 +7,13 @@ import HotelCard from "../../../components/Hotel/Hotel";
 import Reservation from "../../../client/ReservationRq";
 
 const InsuranceTypes = {
+   NO: "Нет",
   MED: "Медицинская страховка",
   AII: "Страхование от несчастных случаев",
   CANC: "Страхование отмены поездки",
   CL: "Страхование гражданской ответственности",
   BAG: "Страхование багажа",
-  NO: "Нет"
+ 
 };
 
 const PaymentTypes = {
@@ -123,15 +124,6 @@ export default function SummaryReservation() {
           <div className="option-group">
             <p className="option-label">Страховка</p>
             <div className="insurance-options">
-              <label className="insurance-option">
-                <input
-                  type="radio"
-                  name="insurance"
-                  checked={insurance === null}
-                  onChange={() => setInsurance(null)}
-                />
-                Нет
-              </label>
               {Object.entries(InsuranceTypes).map(([key, description]) => (
                 <label key={key} className="insurance-option">
                   <input

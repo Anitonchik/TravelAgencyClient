@@ -84,7 +84,7 @@ export default class Reservation {
     }
 
     async cancel(reservationData) {
-        return postRequest(`${this.URL}/cancel`, reservationData);
+        return putRequest(`${this.URL}/cancel`, reservationData);
     }
 
     async getVoucher(voucherData) {

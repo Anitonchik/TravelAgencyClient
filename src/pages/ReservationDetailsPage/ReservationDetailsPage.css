@@ -235,6 +235,7 @@
 }
 
 .button-back,
+.button-cancel-res,
 .button-continue,
 .button-voucher {
   border: 2px solid;
@@ -263,8 +264,16 @@
   border-color: #3DD068;
 }
 
+.button-cancel-res {
+  border-color: #ba7856;
+}
+
 .button-back:hover {
   background-color: rgba(61, 208, 104, 0.05);
+}
+
+.button-cancel-res:hover {
+  background-color: rgba(185, 80, 39, 0.05);
 }
 
 .button-continue {

@@ -113,6 +113,8 @@ export async function deleteRequest(url, options = {}) {
 export async function postRequestBlob(url, data, options = {}) {
   let fullUrl = baseURL + url;
 
+  const token = localStorage.getItem('token');
+
   if (options.params) {
     const query = new URLSearchParams(options.params).toString();
     fullUrl += `?${query}`;

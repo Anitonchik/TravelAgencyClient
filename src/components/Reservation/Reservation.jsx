@@ -11,7 +11,7 @@ const STATUS_CONFIG = {
     bgClass: "status-bg-pending",
     textClass: "status-text-pending",
   },
-  CANCELLED: {
+  CANCELED: {
     label: "Отменено",
     bgClass: "status-bg-cancelled",
     textClass: "status-text-cancelled",

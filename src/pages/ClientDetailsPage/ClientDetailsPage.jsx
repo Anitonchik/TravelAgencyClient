@@ -14,6 +14,8 @@ export default function ClientDetails() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [currentImage, setCurrentImage] = useState("");
 
 
   useEffect(() => {
@@ -51,6 +53,11 @@ export default function ClientDetails() {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const handleViewImage = (imagePath) => {
+    setCurrentImage(imagePath);
+    setShowImageModal(true);
   };
 
   const formatDate = (dateString) => {
@@ -175,12 +182,17 @@ export default function ClientDetails() {
               <div className="detail-row">
                 <span className="detail-label">Скан паспорта:</span>
                 <span className="detail-value">
-                  {client.passport.isNaNmage ? (
-                    <a href="#" className="file-link">Смотреть файл</a>
-                  ) : (
-                    "Не загружен"
-                  )}
-                </span>
+                    {client.passport.image ? (
+                      <button 
+                        onClick={() => handleViewImage(client.passport.image)} 
+                        className="file-link-button"
+                      >
+                        Смотреть файл
+                      </button>
+                    ) : (
+                      "Не загружен"
+                    )}
+                  </span>
               </div>
             </div>
           </div>
@@ -190,7 +202,7 @@ export default function ClientDetails() {
             <div className="details-grid">
               <div className="detail-row">
                 <span className="detail-label">Полис ОМС:</span>
-                <span className="detail-value">{formatPolicy(client.policy.CMIpolicy)}</span>
+                <span className="detail-value">{formatPolicy(client.policy.CMIPolicy)}</span>
               </div>
               <div className="detail-row">
                 <span className="detail-label">СНИЛС:</span>
@@ -198,13 +210,18 @@ export default function ClientDetails() {
               </div>
               <div className="detail-row">
                 <span className="detail-label">Скан полиса:</span>
-                <span className="detail-value">
-                  {client.policyImage ? (
-                    <a href="#" className="file-link">Смотреть файл</a>
-                  ) : (
-                    "Не загружен"
-                  )}
-                </span>
+                  <span className="detail-value">
+                    {client.policy.image ? (
+                      <button 
+                        onClick={() => handleViewImage(client.policy.image)} 
+                        className="file-link-button"
+                      >
+                        Смотреть файл
+                      </button>
+                    ) : (
+                      "Не загружен"
+                    )}
+                  </span>
               </div>
             </div>
           </div>
@@ -305,6 +322,19 @@ export default function ClientDetails() {
           </div>
         </div>
       )}
+
+      {showImageModal && (
+      <div className="modal-overlay" onClick={() => setShowImageModal(false)}>
+        <div className="image-modal" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={() => setShowImageModal(false)}>×</button>
+          <img 
+            src={`src/resources/${currentImage}`} 
+            alt="Документ"
+            className="modal-image"
+          />
+        </div>
+      </div>
+    )}
     </div>
   );
 }

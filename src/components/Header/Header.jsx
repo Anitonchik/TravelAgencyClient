@@ -1,11 +1,25 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate  } from "react-router-dom";
 import './Header.css';
 
 export default function Header() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  return (
-    <header className="header">
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
+
+
+  const handleLogout = () => {
+  if (window.confirm('Вы уверены, что хотите выйти?')) {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate('/login');
+  }
+};
+
+return (
+<>
+  <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -15,25 +29,18 @@ export default function Header() {
           <span className="logo-text">РоссияОтдых</span>
         </Link>
 
+      {userId && token ? (
         <nav className="nav">
           <Link to="/" className="nav-link">Бронирования</Link>
           <Link to="/clients" className="nav-link">Клиенты</Link>
           <Link to="/tours" className="nav-link">Туры</Link>
           <Link to="/manager/profile" className="nav-link">Профиль</Link>
-          <Link to="/logout" className="nav-link">Выйти</Link>
-          
-        </nav>
+          <button onClick={handleLogout} className="nav-link logout-btn">Выйти</button>
+        </nav>) : 
+        (<></>)}
 
         <button className="menu-btn">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="3" y1="18" x2="21" y2="18" />
@@ -41,5 +48,6 @@ export default function Header() {
         </button>
       </div>
     </header>
-  );
+  </>
+  )
 }

@@ -126,7 +126,7 @@ export default function ClientsPage() {
     else if (reservationProcess && tour) {
       let reservation = {
         reservationDate: new Date(),
-        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        managerId: localStorage.getItem('userId'),           
         clientId: client.id,
         tourId: tour.id
       }
@@ -137,7 +137,7 @@ export default function ClientsPage() {
       reservation = {
         id: res.id,
         reservationDate: new Date(),
-        managerId: 1,             //ИСПРАВИТЬ ПРИ НАСТРОЙКЕ АВТОРИЗАЦИИ
+        managerId: localStorage.getItem('userId'),          
         client: client,
         tour: tour,
         flightTo: null,

@@ -3,6 +3,55 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./NewClientPage.css";
 import Client from "../../client/ClientRq";
 
+const CITIES = [
+  { value: "MOSCOW", label: "Москва" },
+  { value: "SAINT_PETERSBURG", label: "Санкт-Петербург" },
+  { value: "KAZAN", label: "Казань" },
+  { value: "SOCHI", label: "Сочи" },
+  { value: "NIZHNY_NOVGOROD", label: "Нижний Новгород" },
+  { value: "VLADIVOSTOK", label: "Владивосток" },
+  { value: "NOVOSIBIRSK", label: "Новосибирск" },
+  { value: "YEKATERINBURG", label: "Екатеринбург" },
+  { value: "KALININGRAD", label: "Калининград" },
+  { value: "YAROSLAVL", label: "Ярославль" },
+  { value: "SMOLENSK", label: "Смоленск" },
+  { value: "VELIKY_NOVGOROD", label: "Великий Новгород" },
+  { value: "KRASNODAR", label: "Краснодар" },
+  { value: "IRKUTSK", label: "Иркутск" },
+  { value: "TOBOLSK", label: "Тобольск" },
+  { value: "PSKOV", label: "Псков" },
+  { value: "SAMARA", label: "Самара" },
+  { value: "MURMANSK", label: "Мурманск" },
+  { value: "VOLGOGRAD", label: "Волгоград" },
+  { value: "UFA", label: "Уфа" },
+  { value: "KOLOMNA", label: "Коломна" },
+  { value: "KRASNOYARSK", label: "Красноярск" },
+  { value: "DERBENT", label: "Дербент" },
+  { value: "GELENDZHIK", label: "Геленджик" },
+  { value: "ANAPA", label: "Анапа" },
+  { value: "YELETS", label: "Елец" },
+  { value: "SEMENOV", label: "Семёнов" },
+  { value: "KUDYMKAR", label: "Кудымкар" },
+  { value: "YOSHKAR_OLA", label: "Йошкар-Ола" },
+  { value: "SARANSK", label: "Саранск" },
+  { value: "TULA", label: "Тула" },
+  { value: "VLADIMIR", label: "Владимир" },
+  { value: "SUZDAL", label: "Суздаль" },
+  { value: "SERGIEV_POSAD", label: "Сергиев Посад" },
+  { value: "ROSTOV_VELIKY", label: "Ростов Великий" },
+  { value: "PERESLAVL_ZALESSKY", label: "Переславль-Залесский" },
+  { value: "UGLICH", label: "Углич" },
+  { value: "KOSTROMA", label: "Кострома" },
+  { value: "BERDYANSK", label: "Бердянск" },
+  { value: "KAMENSK_URALSKY", label: "Каменск-Уральский" },
+  { value: "FEODOSIA", label: "Феодосия" },
+  { value: "TUAPSE", label: "Туапсе" },
+  { value: "YEYSK", label: "Ейск" },
+  { value: "NOVOROSSIYSK", label: "Новороссийск" },
+  { value: "PYATIGORSK", label: "Пятигорск" },
+  { value: "KISLOVODSK", label: "Кисловодск" }
+];
+
 export default function NewClient() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,25 +60,21 @@ export default function NewClient() {
   const policyFileInputRef = useRef(null);
   const clientApi = useMemo(() => new Client(), []);
   const client = location.state?.client;
-  console.log("Редактируемый клиент:", client);
 
   const formatDateForInput = (dateString) => {
-  if (!dateString) return "";
-  
-  try {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return "";
-    
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
-  } catch (error) {
-    console.error("Ошибка форматирования даты:", error);
-    return "";
-  }
-};
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "";
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    } catch (error) {
+      console.error("Ошибка форматирования даты:", error);
+      return "";
+    }
+  };
 
   const [form, setForm] = useState({
     lastName: client?.lastName || "",
@@ -37,12 +82,18 @@ export default function NewClient() {
     surName: client?.surName || "",
     phone: client?.phone || "",
     email: client?.email || "",
-    passportSeries: client?.passport.series || "",
-    passportNumber: client?.passport.numbers || "",
-    omsPolicy: client?.policy.CMIPolicy || "",
+    passportSeries: client?.passport?.series || "",
+    passportNumber: client?.passport?.numbers || "",
+    omsPolicy: client?.policy?.CMIPolicy || "",
     snils: client?.snils || "",
     birthDate: formatDateForInput(client?.birthDate) || "",
     preferences: client?.preferenceDescription || "",
+    preferenceCity: client?.preferenceCity || "",
+    preferencePriceFrom: client?.preferencePriceFrom || "",
+    preferencePriceTo: client?.preferencePriceTo || "",
+    preferenceDateFrom: formatDateForInput(client?.preferenceDateFrom) || "",
+    passportImage: client?.passport.image || "",
+    policyImage: client?.policy.image || "",
   });
   
   const [passportFiles, setPassportFiles] = useState([]);
@@ -75,21 +126,21 @@ export default function NewClient() {
   };
 
   const validateBirthDate = (value) => {
-  if (!value) return "Дата рождения обязательна";
-  const birthDate = new Date(value);
-  const today = new Date();
-  if (isNaN(birthDate.getTime())) return "Неверный формат даты";
-  if (birthDate > today) return "Дата рождения не может быть в будущем";
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDiff = today.getMonth() - birthDate.getMonth();
-  const dayDiff = today.getDate() - birthDate.getDate();
-  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-    age--;
-  }  
-  if (age < 18) return "Клиент должен быть старше 18 лет";
-  if (age > 120) return "Некорректная дата рождения";
-  return "";
-};
+    if (!value) return "Дата рождения обязательна";
+    const birthDate = new Date(value);
+    const today = new Date();
+    if (isNaN(birthDate.getTime())) return "Неверный формат даты";
+    if (birthDate > today) return "Дата рождения не может быть в будущем";
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }  
+    if (age < 18) return "Клиент должен быть старше 18 лет";
+    if (age > 120) return "Некорректная дата рождения";
+    return "";
+  };
 
   const validatePhone = (value) => {
     if (!value || value.trim().length === 0) return "Телефон обязателен";
@@ -138,6 +189,45 @@ export default function NewClient() {
     return "";
   };
 
+  const validatePreferenceCity = (value) => {
+    if (!value || (typeof value === 'string' && value.trim().length === 0)) return "Выберите город назначения";
+    return "";
+  };
+
+  const validatePreferencePriceFrom = (value) => {
+    if (value === null || value === undefined || value === "") return "Цена от обязательна";
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    if (isNaN(numValue)) return "Введите число";
+    if (numValue < 0) return "Цена не может быть отрицательной";
+    if (numValue > 10000000) return "Цена не может превышать 10 000 000";
+    return "";
+  };
+
+  const validatePreferencePriceTo = (value) => {
+    if (value === null || value === undefined || value === "") return "Цена до обязательна";
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    if (isNaN(numValue)) return "Введите число";
+    if (numValue < 0) return "Цена не может быть отрицательной";
+    if (numValue > 10000000) return "Цена не может превышать 10 000 000";
+    if (form.preferencePriceFrom && numValue < parseFloat(form.preferencePriceFrom)) {
+      return "Цена до должна быть больше или равна цене от";
+    }
+    return "";
+  };
+
+  const validatePreferenceDateFrom = (value) => {
+    if (!value) return "Дата тура обязательна";
+    const dateValue = value instanceof Date ? value : new Date(value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (isNaN(dateValue.getTime())) return "Неверный формат даты";
+    if (dateValue < today) return "Дата тура не может быть в прошлом";
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 5);
+    if (dateValue > maxDate) return "Дата тура не может быть более чем на 5 лет вперед";
+    return "";
+  };
+
   const validateField = (name, value) => {
     switch (name) {
       case "lastName": return validateLastName(value);
@@ -150,22 +240,41 @@ export default function NewClient() {
       case "passportNumber": return validatePassportNumber(value);
       case "omsPolicy": return validateOmsPolicy(value);
       case "snils": return validateSnils(value);
+      case "preferenceCity": return validatePreferenceCity(value);
+      case "preferencePriceFrom": return validatePreferencePriceFrom(value);
+      case "preferencePriceTo": return validatePreferencePriceTo(value);
+      case "preferenceDateFrom": return validatePreferenceDateFrom(value);
       default: return "";
     }
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    
-    const error = validateField(name, value);
+    const { name, value, type } = e.target;
+    let processedValue = value;
+    if (type === 'number') {
+      processedValue = value === '' ? '' : parseFloat(value);
+    }
+    setForm((prev) => ({ ...prev, [name]: processedValue }));
+    const error = validateField(name, processedValue);
     setErrors((prev) => ({ ...prev, [name]: error }));
+    if (name === "preferencePriceFrom" && form.preferencePriceTo) {
+      const preferencePriceToError = validatePreferencePriceTo(form.preferencePriceTo);
+      setErrors((prev) => ({ ...prev, preferencePriceTo: preferencePriceToError }));
+    }
+    if (name === "preferencePriceTo" && form.preferencePriceFrom) {
+      const preferencePriceToError = validatePreferencePriceTo(processedValue);
+      setErrors((prev) => ({ ...prev, preferencePriceTo: preferencePriceToError }));
+    }
   };
 
   const handleBlur = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    let processedValue = value;
+    if (type === 'number') {
+      processedValue = value === '' ? '' : parseFloat(value);
+    }
     setTouched((prev) => ({ ...prev, [name]: true }));
-    const error = validateField(name, value);
+    const error = validateField(name, processedValue);
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
@@ -182,23 +291,21 @@ export default function NewClient() {
   };
 
   const isFormValid = () => {
-    const fieldsToValidate = ["lastName", "firstName", "surName", "birthDate", "phone", "email", "passportSeries", "passportNumber", "omsPolicy", "snils"];
+    const fieldsToValidate = ["lastName", "firstName", "surName", "birthDate", "phone", "email", "passportSeries", 
+      "passportNumber", "omsPolicy", "snils", "preferenceCity", "preferencePriceFrom", "preferencePriceTo", "preferenceDateFrom"];
     let isValid = true;
     const newErrors = {};
-    
     for (const field of fieldsToValidate) {
       const error = validateField(field, form[field]);
       newErrors[field] = error;
       if (error) isValid = false;
     }
-    
     setErrors(newErrors);
     return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     const allTouched = {
       lastName: true,
       firstName: true,
@@ -210,15 +317,16 @@ export default function NewClient() {
       passportNumber: true,
       omsPolicy: true,
       snils: true,
+      preferenceCity: true,
+      preferencePriceFrom: true,
+      preferencePriceTo: true,
+      preferenceDateFrom: true,
     };
     setTouched(allTouched);
-    
     if (!isFormValid()) {
       return;
     }
-    
     setIsSubmitting(true);
-    
     try {
       const clientData = {
         firstName: form.firstName.trim(),
@@ -231,28 +339,27 @@ export default function NewClient() {
         preferenceDescription: form.preferences,
         passportSeries: form.passportSeries.replace(/\s/g, ''),
         passportNumbers: form.passportNumber.replace(/\s/g, ''),
-        passportImage: passportFiles.length > 0 ? passportFiles[0].name : "",
+        passportImage: passportFiles.length > 0 ? passportFiles[0].name : (form.passportImage.length > 0 ? form.passportImage : ""),
         policy: form.omsPolicy.replace(/\s/g, ''),
-        policyImage: policyFiles.length > 0 ? policyFiles[0].name : "",
+        policyImage: policyFiles.length > 0 ? policyFiles[0].name :  (form.policyImage.length > 0 ? form.policyImage : ""),
+        preferenceCity: form.preferenceCity,
+        preferenceDateFrom: new Date(form.preferenceDateFrom),
+        preferencePriceFrom: parseFloat(form.preferencePriceFrom),
+        preferencePriceTo: parseFloat(form.preferencePriceTo),
       };
-    
       if (client) {
         await clientApi.update(clientData, client.id);
-      }
-      else {
+      } else {
         await clientApi.create(clientData);
       }
       navigate("/");
     } catch (error) {
       console.error("Ошибка при сохранении клиента:", error);
-    
       if (error.message?.includes("повторяющееся значение ключа") || 
           error.message?.includes("duplicate key") ||
           error.message?.includes("unique constraint")) {
-        
         let fieldName = "";
         let fieldValue = "";
-        
         if (error.message?.includes("numbers")) {
           fieldName = "Номер паспорта";
           fieldValue = form.passportNumber;
@@ -275,21 +382,18 @@ export default function NewClient() {
           fieldName = "Данные";
           fieldValue = "неизвестное значение";
         }
-        
         setModalMessage(`Клиент с таким ${fieldName} (${fieldValue}) уже существует в системе`);
       } else if (error.response?.status === 409) {
         setModalMessage("Клиент с такими данными уже существует в системе");
       } else {
         setModalMessage("Произошла ошибка при сохранении клиента. Попробуйте позже.");
       }
-      
       setShowModal(true);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  
   const handlePassportSeriesInput = (e) => {
     let value = e.target.value.replace(/\D/g, '').slice(0, 4);
     if (value.length === 2) {
@@ -390,7 +494,6 @@ export default function NewClient() {
         <h1 className="new-client-title">Создать учетную запись клиента</h1>
 
         <form onSubmit={handleSubmit} className="new-client-form">
-          {/* Row 1: Фамилия + Имя + Отчество */}
           <div className="form-row-three">
             <div className="form-field">
               <label className="form-label">Фамилия:</label>
@@ -564,16 +667,80 @@ export default function NewClient() {
             </div>
           </div>
 
-          <div className="form-field-full">
-            <label className="form-label">Предпочтения:</label>
-            <textarea
-              name="preferences"
-              value={form.preferences}
-              onChange={handleChange}
-              rows={4}
-              className="form-textarea"
-              placeholder="Дополнительные пожелания..."
-            />
+          <label className="form-label mt-2 mb-0">Предпочтения клиента по турам</label>
+          <div className="form-row preferences-grid">
+            <div className="form-field">
+              <label className="form-label">Город назначения:</label>
+              <select
+                name="preferenceCity"
+                value={form.preferenceCity || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={touched.preferenceCity && errors.preferenceCity ? "form-select form-select-error" : "form-select"}
+                required
+              >
+                <option value="" disabled>Выберите город</option>
+                {CITIES.map(preferenceCity => (
+                  <option key={preferenceCity.value} value={preferenceCity.value}>
+                    {preferenceCity.label}
+                  </option>
+                ))}
+              </select>
+              {touched.preferenceCity && errors.preferenceCity && (
+                <span className="form-error">{errors.preferenceCity}</span>
+              )}
+            </div>
+            <div className="form-field">
+              <label className="form-label">Цена от:</label>
+              <input
+                name="preferencePriceFrom"
+                type="number"
+                value={form.preferencePriceFrom}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                step="0.01"
+                min="0"
+                className={getInputClassName("preferencePriceFrom")}
+                placeholder="0"
+              />
+              {touched.preferencePriceFrom && errors.preferencePriceFrom && (
+                <span className="form-error">{errors.preferencePriceFrom}</span>
+              )}
+            </div>
+            <div className="form-field">
+              <label className="form-label">Цена до:</label>
+              <input
+                name="preferencePriceTo"
+                type="number"
+                value={form.preferencePriceTo}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                step="0.01"
+                min="0"
+                className={getInputClassName("preferencePriceTo")}
+                placeholder="0"
+              />
+              {touched.preferencePriceTo && errors.preferencePriceTo && (
+                <span className="form-error">{errors.preferencePriceTo}</span>
+              )}
+            </div>
+            <div className="form-field">
+              <label className="form-label">Дата тура:</label>
+              <input
+                name="preferenceDateFrom"
+                type="date"
+                value={form.preferenceDateFrom}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                className={getInputClassName("preferenceDateFrom")}
+              />
+              {touched.preferenceDateFrom && errors.preferenceDateFrom && (
+                <span className="form-error">{errors.preferenceDateFrom}</span>
+              )}
+            </div>
           </div>
 
           <FileUploadSection

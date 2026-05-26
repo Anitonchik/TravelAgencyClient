@@ -54,6 +54,18 @@
   }
 }
 
+.preferences-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .preferences-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .passport-group {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -138,7 +150,6 @@
   }
 }
 
-/* File upload styles */
 .file-upload-container {
   background-color: #F0F0F0;
   border: 2px solid #FFB411;
@@ -217,7 +228,6 @@
   background-color: rgba(61, 208, 104, 0.05);
 }
 
-/* Action buttons */
 .form-actions {
   display: flex;
   flex-direction: column;
@@ -260,7 +270,6 @@
   background-color: rgba(61, 208, 104, 0.05);
 }
 
-/* Footer */
 .new-client-footer {
   background-color: #EFEFEF;
   border-top: 2px solid rgba(255, 180, 17, 0.4);
@@ -281,7 +290,6 @@
   }
 }
 
-/* Стили для трех колонок */
 .form-row-three {
   display: grid;
   grid-template-columns: 1fr;
@@ -294,7 +302,6 @@
   }
 }
 
-/* Стили для ошибок */
 .form-input-error {
   border-color: #ff4444 !important;
   background-color: #fff5f5 !important;
@@ -308,7 +315,6 @@
   margin-left: 12px;
 }
 
-/* Модальное окно */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -404,4 +410,57 @@
 
 .button-disabled:hover {
   background-color: white;
+}
+
+.form-field select.form-select,
+.form-field .form-select,
+.form-select {
+  width: 100%;
+  background-color: #F0F0F0;
+  border: 2px solid #FFB411;
+  border-radius: 14px;
+  padding: 14px 20px;
+  color: #282828;
+  font-weight: 500;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Nunito', sans-serif;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23282828' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 16px;
+}
+
+.form-select:focus {
+  box-shadow: 0 0 0 2px rgba(255, 180, 17, 0.3);
+  border-color: #FFB411;
+}
+
+.form-select option {
+  background-color: white;
+  color: #282828;
+  padding: 12px;
+  font-weight: 500;
+}
+
+.form-select-error {
+  border-color: #ff4444 !important;
+  background-color: #fff5f5 !important;
+}
+
+
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
 }
