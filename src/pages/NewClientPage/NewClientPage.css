@@ -464,3 +464,99 @@
 .mt-0 {
   margin-top: 0;
 }
+
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  background: #FFB411;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: #f5576c;
+}
+
+.modal-search {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.modal-search-input:focus {
+  outline: none;
+  border-color: #FFB411;
+  box-shadow: 0 0 0 3px rgba(255, 180, 17, 0.1);
+}
+
+.modal-cities-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+  max-height: 400px;
+}
+
+.modal-city-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-city-item:hover {
+  background: #f8f9fa;
+}
+
+.modal-city-item.selected {
+  background:  rgba(255, 180, 17, 0.1) ;
+}
+
+.modal-city-name {
+  font-size: 15px;
+  color: #333;
+}
+
+.modal-city-check {
+  color: #FFB411;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.modal-no-results {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 14px;
+}

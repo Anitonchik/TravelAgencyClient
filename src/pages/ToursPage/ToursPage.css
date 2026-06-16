@@ -1,4 +1,45 @@
 /* ToursPage.css */
+.preference-item {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.preference-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.preference-value {
+  font-size: 14px;
+  color: #333;
+  font-weight: 400;
+}
+
+.preferences-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pref-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.pref-label {
+  color: #666;
+}
+
+.pref-value {
+  color: #333;
+  font-weight: 500;
+}
 
 /* Container */
 .tours-selection {
@@ -252,25 +293,6 @@
   gap: 0.5rem;
 }
 
-.clear-filters-button {
-  width: 100%;
-  padding: 0.625rem;
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 10px;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  color: #666;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 0.5rem;
-}
-
-.clear-filters-button:hover {
-  background-color: #e0e0e0;
-  color: #282828;
-}
-
 /* Состояния загрузки */
 .loading-state {
   text-align: center;
@@ -300,6 +322,24 @@
   padding: 3rem;
   color: #999;
   font-size: 1rem;
+}
+
+.buttons {
+  width: 100%;
+  padding: 0.625rem;
+  background-color: #ffffff;
+  border:  2px solid #3DD068;
+  border-radius: 20px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  color: #696969;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.buttons:hover {
+  background-color: rgba(61, 208, 104, 0.05);
 }
 
 /* Адаптивность */
@@ -361,8 +401,180 @@
     font-size: 13px;
   }
   
-  .clear-filters-button {
+  .buttons {
     padding: 8px;
     font-size: 13px;
   }
+}
+
+.city-selector {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.city-selector:hover {
+  border-color: #FFB411;
+}
+
+.city-selector-value {
+  font-size: 14px;
+  color: #333;
+}
+
+.city-selector-value.placeholder {
+  color: #999;
+}
+
+.city-selector-arrow {
+  color: #FFB411;
+  font-size: 12px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  background: #FFB411;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: #f5576c;
+}
+
+.modal-search {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.modal-search-input:focus {
+  outline: none;
+  border-color: #FFB411;
+  box-shadow: 0 0 0 3px rgba(255, 180, 17, 0.1);
+}
+
+.modal-cities-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+  max-height: 400px;
+}
+
+.modal-city-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-city-item:hover {
+  background: #f8f9fa;
+}
+
+.modal-city-item.selected {
+  background:  rgba(255, 180, 17, 0.1) ;
+}
+
+.modal-city-name {
+  font-size: 15px;
+  color: #333;
+}
+
+.modal-city-check {
+  color: #FFB411;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.modal-no-results {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 14px;
 }

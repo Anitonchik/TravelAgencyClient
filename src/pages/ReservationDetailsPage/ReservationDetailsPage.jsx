@@ -88,7 +88,7 @@ export default function ReservationDetails() {
       insuranceType: "NO"
     };
     await reservationApi.cancel(reservationData);
-
+    navigate("/");
   }
 
   const handleBack = () => {

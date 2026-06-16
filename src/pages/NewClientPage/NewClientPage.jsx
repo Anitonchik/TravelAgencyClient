@@ -1,56 +1,8 @@
 import { useState, useRef, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { CITIES } from "../../constants/cities";
 import "./NewClientPage.css";
 import Client from "../../client/ClientRq";
-
-const CITIES = [
-  { value: "MOSCOW", label: "Москва" },
-  { value: "SAINT_PETERSBURG", label: "Санкт-Петербург" },
-  { value: "KAZAN", label: "Казань" },
-  { value: "SOCHI", label: "Сочи" },
-  { value: "NIZHNY_NOVGOROD", label: "Нижний Новгород" },
-  { value: "VLADIVOSTOK", label: "Владивосток" },
-  { value: "NOVOSIBIRSK", label: "Новосибирск" },
-  { value: "YEKATERINBURG", label: "Екатеринбург" },
-  { value: "KALININGRAD", label: "Калининград" },
-  { value: "YAROSLAVL", label: "Ярославль" },
-  { value: "SMOLENSK", label: "Смоленск" },
-  { value: "VELIKY_NOVGOROD", label: "Великий Новгород" },
-  { value: "KRASNODAR", label: "Краснодар" },
-  { value: "IRKUTSK", label: "Иркутск" },
-  { value: "TOBOLSK", label: "Тобольск" },
-  { value: "PSKOV", label: "Псков" },
-  { value: "SAMARA", label: "Самара" },
-  { value: "MURMANSK", label: "Мурманск" },
-  { value: "VOLGOGRAD", label: "Волгоград" },
-  { value: "UFA", label: "Уфа" },
-  { value: "KOLOMNA", label: "Коломна" },
-  { value: "KRASNOYARSK", label: "Красноярск" },
-  { value: "DERBENT", label: "Дербент" },
-  { value: "GELENDZHIK", label: "Геленджик" },
-  { value: "ANAPA", label: "Анапа" },
-  { value: "YELETS", label: "Елец" },
-  { value: "SEMENOV", label: "Семёнов" },
-  { value: "KUDYMKAR", label: "Кудымкар" },
-  { value: "YOSHKAR_OLA", label: "Йошкар-Ола" },
-  { value: "SARANSK", label: "Саранск" },
-  { value: "TULA", label: "Тула" },
-  { value: "VLADIMIR", label: "Владимир" },
-  { value: "SUZDAL", label: "Суздаль" },
-  { value: "SERGIEV_POSAD", label: "Сергиев Посад" },
-  { value: "ROSTOV_VELIKY", label: "Ростов Великий" },
-  { value: "PERESLAVL_ZALESSKY", label: "Переславль-Залесский" },
-  { value: "UGLICH", label: "Углич" },
-  { value: "KOSTROMA", label: "Кострома" },
-  { value: "BERDYANSK", label: "Бердянск" },
-  { value: "KAMENSK_URALSKY", label: "Каменск-Уральский" },
-  { value: "FEODOSIA", label: "Феодосия" },
-  { value: "TUAPSE", label: "Туапсе" },
-  { value: "YEYSK", label: "Ейск" },
-  { value: "NOVOROSSIYSK", label: "Новороссийск" },
-  { value: "PYATIGORSK", label: "Пятигорск" },
-  { value: "KISLOVODSK", label: "Кисловодск" }
-];
 
 export default function NewClient() {
   const navigate = useNavigate();
@@ -92,8 +44,8 @@ export default function NewClient() {
     preferencePriceFrom: client?.preferencePriceFrom || "",
     preferencePriceTo: client?.preferencePriceTo || "",
     preferenceDateFrom: formatDateForInput(client?.preferenceDateFrom) || "",
-    passportImage: client?.passport.image || "",
-    policyImage: client?.policy.image || "",
+    passportImage: client?.passport?.image || "",
+    policyImage: client?.policy?.image || "",
   });
   
   const [passportFiles, setPassportFiles] = useState([]);
@@ -103,6 +55,24 @@ export default function NewClient() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCityModalOpen, setIsCityModalOpen] = useState(false);
+  const [citySearchTerm, setCitySearchTerm] = useState("");
+
+  const filteredCities = CITIES.filter(city => 
+    city.label.toLowerCase().includes(citySearchTerm.toLowerCase()) ||
+    city.value.toLowerCase().includes(citySearchTerm.toLowerCase())
+  );
+
+  const handleCitySelect = (cityValue) => {
+    setForm(prev => ({ ...prev, preferenceCity: cityValue }));
+    setIsCityModalOpen(false);
+    setCitySearchTerm("");
+    const error = validateField("preferenceCity", cityValue);
+    setErrors(prev => ({ ...prev, preferenceCity: error }));
+    if (touched.preferenceCity) {
+      setErrors(prev => ({ ...prev, preferenceCity: error }));
+    }
+  };
 
   const validateLastName = (value) => {
     if (!value || value.trim().length === 0) return "Фамилия обязательна";
@@ -488,6 +458,8 @@ export default function NewClient() {
     </div>
   );
 
+  const selectedCityLabel = CITIES.find(city => city.value === form.preferenceCity)?.label || "Выберите город";
+
   return (
     <div className="new-client-page">
       <main className="new-client-main">
@@ -671,21 +643,12 @@ export default function NewClient() {
           <div className="form-row preferences-grid">
             <div className="form-field">
               <label className="form-label">Город назначения:</label>
-              <select
-                name="preferenceCity"
-                value={form.preferenceCity || ""}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={touched.preferenceCity && errors.preferenceCity ? "form-select form-select-error" : "form-select"}
-                required
-              >
-                <option value="" disabled>Выберите город</option>
-                {CITIES.map(preferenceCity => (
-                  <option key={preferenceCity.value} value={preferenceCity.value}>
-                    {preferenceCity.label}
-                  </option>
-                ))}
-              </select>
+              <div className="city-selector" onClick={() => setIsCityModalOpen(true)}>
+                <span className={`city-selector-value ${!form.preferenceCity ? 'placeholder' : ''}`}>
+                  {selectedCityLabel}
+                </span>
+                <span className="city-selector-arrow">▼</span>
+              </div>
               {touched.preferenceCity && errors.preferenceCity && (
                 <span className="form-error">{errors.preferenceCity}</span>
               )}
@@ -792,6 +755,46 @@ export default function NewClient() {
               <button className="modal-button" onClick={() => setShowModal(false)}>
                 Закрыть
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isCityModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsCityModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">Выберите город</h3>
+              <button className="modal-close" onClick={() => setIsCityModalOpen(false)}>×</button>
+            </div>
+            
+            <div className="modal-search">
+              <input
+                type="text"
+                placeholder="Поиск города..."
+                value={citySearchTerm}
+                onChange={(e) => setCitySearchTerm(e.target.value)}
+                className="modal-search-input"
+                autoFocus
+              />
+            </div>
+            
+            <div className="modal-cities-list">
+              {filteredCities.length > 0 ? (
+                filteredCities.map(city => (
+                  <div
+                    key={city.value}
+                    className={`modal-city-item ${form.preferenceCity === city.value ? 'selected' : ''}`}
+                    onClick={() => handleCitySelect(city.value)}
+                  >
+                    <span className="modal-city-name">{city.label}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="modal-no-results">
+                  Ничего не найдено
+                </div>
+              )}
             </div>
           </div>
         </div>

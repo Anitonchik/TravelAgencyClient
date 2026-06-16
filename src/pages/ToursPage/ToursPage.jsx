@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import TourCard from "../../components/Tour/Tour";
+import { CITIES } from "../../constants/cities";
 import "./ToursPage.css";
 import Tour from "../../client/TourRq";
 
@@ -24,37 +25,40 @@ export default function ToursPage() {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   
+  const [isCityModalOpen, setIsCityModalOpen] = useState(false);
+  const [citySearchTerm, setCitySearchTerm] = useState("");
+  const [useClientPreferences, setUseClientPreferences] = useState(false);
+  
   const tourApi = useMemo(() => new Tour(), []);
   const searchTimeoutRef = useRef(null);
 
-  // Загрузка туров с учетом всех фильтров
+  const filteredCities = CITIES.filter(city => 
+    city.label.toLowerCase().includes(citySearchTerm.toLowerCase()) ||
+    city.value.toLowerCase().includes(citySearchTerm.toLowerCase())
+  );
+
   const loadTours = useCallback(async (pageNum, resetList = false) => {
     setIsLoading(true);
     try {
       let data;
 
-      if (searchHotel) {
-        data = await tourApi.getByHotelName(searchHotel, pageNum, pageSize);
-      } 
-      else if (searchDirection) {
-        data = await tourApi.getByDirection(searchDirection, pageNum, pageSize);
-      }
-      else if (checkInDate && checkOutDate) {
-        data = await tourApi.getByDates(checkInDate, checkOutDate, pageNum, pageSize);
-      }
-      else if (checkInDate) {
-        data = await tourApi.getByDate(checkInDate, pageNum, pageSize);
-      }
-      else if (priceFrom && priceTo) {
-        data = await tourApi.getByPriceRange(priceFrom, priceTo, pageNum, pageSize);
-      }
-      else if (priceFrom) {
-        data = await tourApi.getByPriceFrom(priceFrom, pageNum, pageSize);
-      }
-      else if (priceTo) {
-        data = await tourApi.getByPriceTo(priceTo, pageNum, pageSize);
-      }
-      else {
+      const hasFilters = searchHotel || searchDirection || priceFrom || priceTo || checkInDate || checkOutDate;
+
+      if (useClientPreferences && client) {
+        data = await tourApi.getByClientPreferencies(client.id, pageNum, pageSize);
+      } else if (hasFilters) {
+        const params = new URLSearchParams();
+        if (searchHotel) params.append('hotelName', searchHotel);
+        if (searchDirection) params.append('direction', searchDirection);
+        if (priceFrom) params.append('priceFrom', priceFrom);
+        if (priceTo) params.append('priceTo', priceTo);
+        if (checkInDate) params.append('dateFrom', checkInDate);
+        if (checkOutDate) params.append('dateTo', checkOutDate);
+        params.append('pageNumber', pageNum);
+        params.append('pageSize', pageSize);
+        
+        data = await tourApi.searchTours(params);
+      } else {
         data = await tourApi.getAll(pageNum, pageSize);
       }
       
@@ -74,80 +78,119 @@ export default function ToursPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [tourApi, searchHotel, searchDirection, checkInDate, checkOutDate, priceFrom, priceTo, pageSize]);
+  }, [tourApi, searchHotel, searchDirection, checkInDate, checkOutDate, priceFrom, priceTo, pageSize, client, useClientPreferences]);
 
-  const resetAndSearch = () => {
+  const applyPreferencesFilter = useCallback(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    setUseClientPreferences(true);
+    setSearchHotel("");
+    setSearchDirection("");
+    setPriceFrom("");
+    setPriceTo("");
+    setCheckInDate("");
+    setCheckOutDate("");
+    
     setTours([]);
     currentPageRef.current = 0;
     setFetching(true);
-  };
+  }, []);
 
-  const handleHotelChange = (value) => {
+  const handleHotelChange = useCallback((value) => {
+    setUseClientPreferences(false);
     setSearchHotel(value);
-    setSearchDirection("");
-    setPriceFrom("");
-    setPriceTo("");
-    setCheckInDate("");
-    setCheckOutDate("");
     
-    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    searchTimeoutRef.current = setTimeout(resetAndSearch, 300);
-  };
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    searchTimeoutRef.current = setTimeout(() => {
+      setTours([]);
+      currentPageRef.current = 0;
+      setFetching(true);
+    }, 300);
+  }, []);
 
-  const handleDirectionChange = (value) => {
+  const handleDirectionSelect = useCallback((value) => {
+    setUseClientPreferences(false);
     setSearchDirection(value);
-    setSearchHotel("");
-    setPriceFrom("");
-    setPriceTo("");
-    setCheckInDate("");
-    setCheckOutDate("");
+    setIsCityModalOpen(false);
+    setCitySearchTerm("");
     
-    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    searchTimeoutRef.current = setTimeout(resetAndSearch, 300);
-  };
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    searchTimeoutRef.current = setTimeout(() => {
+      setTours([]);
+      currentPageRef.current = 0;
+      setFetching(true);
+    }, 300);
+  }, []);
 
-  const handlePriceFromChange = (value) => {
+  const handlePriceFromChange = useCallback((value) => {
+    setUseClientPreferences(false);
     setPriceFrom(value);
-    setSearchHotel("");
-    setSearchDirection("");
-    setCheckInDate("");
-    setCheckOutDate("");
     
-    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    searchTimeoutRef.current = setTimeout(resetAndSearch, 300);
-  };
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    searchTimeoutRef.current = setTimeout(() => {
+      setTours([]);
+      currentPageRef.current = 0;
+      setFetching(true);
+    }, 300);
+  }, []);
 
-  const handlePriceToChange = (value) => {
+  const handlePriceToChange = useCallback((value) => {
+    setUseClientPreferences(false);
     setPriceTo(value);
-    setSearchHotel("");
-    setSearchDirection("");
-    setCheckInDate("");
-    setCheckOutDate("");
     
-    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    searchTimeoutRef.current = setTimeout(resetAndSearch, 300);
-  };
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    searchTimeoutRef.current = setTimeout(() => {
+      setTours([]);
+      currentPageRef.current = 0;
+      setFetching(true);
+    }, 300);
+  }, []);
 
-  const handleDateChange = (type, value) => {
+  const handleDateChange = useCallback((type, value) => {
+    setUseClientPreferences(false);
     if (type === 'start') {
       setCheckInDate(value);
     } else {
       setCheckOutDate(value);
     }
+    
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    searchTimeoutRef.current = setTimeout(() => {
+      setTours([]);
+      currentPageRef.current = 0;
+      setFetching(true);
+    }, 300);
+  }, []);
+
+  const clearAllFilters = useCallback(() => {
+    setUseClientPreferences(false);
     setSearchHotel("");
     setSearchDirection("");
     setPriceFrom("");
     setPriceTo("");
-    
-    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    searchTimeoutRef.current = setTimeout(resetAndSearch, 300);
-  };
-
-  useEffect(() => {
+    setCheckInDate("");
+    setCheckOutDate("");
     setTours([]);
     currentPageRef.current = 0;
     setFetching(true);
-  }, [searchHotel, searchDirection, priceFrom, priceTo, checkInDate, checkOutDate]);
+  }, []);
 
   useEffect(() => {
     if (!fetching) return;
@@ -165,7 +208,6 @@ export default function ToursPage() {
     loadMore();
   }, [fetching, loadTours]);
 
-  // Обработчик скролла
   const scrollHandler = useCallback((e) => {
     const scrollHeight = e.target.documentElement.scrollHeight;
     const scrollTop = e.target.documentElement.scrollTop;
@@ -186,7 +228,6 @@ export default function ToursPage() {
     };
   }, [scrollHandler]);
 
-  // Очистка таймера при размонтировании
   useEffect(() => {
     return () => {
       if (searchTimeoutRef.current) {
@@ -195,21 +236,20 @@ export default function ToursPage() {
     };
   }, []);
 
-  const handleTourClick = (tour) => {
+  const handleTourClick = useCallback((tour) => {
     if (reservationProcess) {
       navigate("/tour", { state: { tour: tour, client: client, reservationProcess: reservationProcess } });
     } else {
       navigate("/tour", { state: { tour: tour, reservationProcess: reservationProcess } });
     }
-  };
+  }, [navigate, reservationProcess, client]);
 
-  // Определяем, есть ли блок с информацией о клиенте
   const hasClientInfo = reservationProcess && client;
+  const selectedCityLabel = CITIES.find(city => city.value === searchDirection)?.label || "Выберите город";
 
   return (
     <div className="tours-selection">
       <div className={`tours-container ${!hasClientInfo ? 'no-client-info' : ''}`}>
-        {/* Блок информации о клиенте - отображается только если есть */}
         {hasClientInfo && (
           <aside className="sidebar-tours-page client-info-sidebar">
             <div className="client-info-card">
@@ -222,24 +262,63 @@ export default function ToursPage() {
                     Клиент
                   </p>
                   <p className="info-value">
-                    {client?.lastName + " " + client?.firstName + " " + client?.surName || "Имя клиента"}
+                    {`${client?.lastName || ''} ${client?.firstName || ''} ${client?.surName || ''}`.trim() || "Имя клиента"}
                   </p>
                 </div>
+                
                 <div className="divider" />
+                
                 <div>
                   <p className="info-label">
                     Предпочтения
                   </p>
-                  <p className="preferences-text">
-                    {client?.preferenceDescription || "Не указаны"}
-                  </p>
+                  
+                  <div className="preference-item">
+                    <span className="preference-label">Город:</span>
+                    <span className="preference-value">
+                      {CITIES.find(city => city.value === client?.preferenceCity)?.label || "Не указан"}
+                    </span>
+                  </div>
+                  
+                  <div className="preference-item">
+                    <span className="preference-label">Дата:</span>
+                    <span className="preference-value">
+                      {client?.preferenceDateFrom 
+                        ? new Date(client.preferenceDateFrom).toLocaleDateString('ru-RU') 
+                        : "Не указана"}
+                    </span>
+                  </div>
+                  
+                  <div className="preference-item">
+                    <span className="preference-label">Цена от:</span>
+                    <span className="preference-value">
+                      {client?.preferencePriceFrom 
+                        ? `${client.preferencePriceFrom.toLocaleString()} ₽` 
+                        : "Не указана"}
+                    </span>
+                  </div>
+                  
+                  <div className="preference-item">
+                    <span className="preference-label">Цена до:</span>
+                    <span className="preference-value">
+                      {client?.preferencePriceTo 
+                        ? `${client.preferencePriceTo.toLocaleString()} ₽` 
+                        : "Не указана"}
+                    </span>
+                  </div>
                 </div>
+                
+                <button 
+                  onClick={applyPreferencesFilter}
+                  className="buttons"
+                >
+                  Применить фильтр по предпочтениям
+                </button>
               </div>
             </div>
           </aside>
         )}
         
-        {/* Основной контент (туры) */}
         <main className="main-content">
           <div>
             <h1 className="page-title">
@@ -249,7 +328,6 @@ export default function ToursPage() {
               Выберите подходящий тур для клиента
             </p>
 
-            {/* Результаты поиска */}
             {isLoading && tours.length === 0 ? (
               <div className="loading-state">Загрузка туров...</div>
             ) : tours.length > 0 ? (
@@ -272,9 +350,11 @@ export default function ToursPage() {
               </>
             ) : (
               <div className="empty-state">
-                {searchHotel || searchDirection || priceFrom || priceTo || checkInDate || checkOutDate
-                  ? "Нет туров, соответствующих вашим критериям."
-                  : "Нет доступных туров."}
+                {useClientPreferences 
+                  ? "Нет туров, соответствующих предпочтениям клиента."
+                  : (searchHotel || searchDirection || priceFrom || priceTo || checkInDate || checkOutDate
+                    ? "Нет туров, соответствующих вашим критериям."
+                    : "Нет доступных туров.")}
               </div>
             )}
           </div>
@@ -297,13 +377,12 @@ export default function ToursPage() {
             
             <div className="filter-group">
               <label className="filter-label">Направление (город)</label>
-              <input
-                type="text"
-                placeholder="Страна, город"
-                value={searchDirection}
-                onChange={(e) => handleDirectionChange(e.target.value)}
-                className="filter-input"
-              />
+              <div className="city-selector" onClick={() => setIsCityModalOpen(true)}>
+                <span className={`city-selector-value ${!searchDirection ? 'placeholder' : ''}`}>
+                  {selectedCityLabel}
+                </span>
+                <span className="city-selector-arrow">▼</span>
+              </div>
             </div>
             
             <div className="filter-group">
@@ -348,24 +427,54 @@ export default function ToursPage() {
             </div>
             
             <button 
-              onClick={() => {
-                setSearchHotel("");
-                setSearchDirection("");
-                setPriceFrom("");
-                setPriceTo("");
-                setCheckInDate("");
-                setCheckOutDate("");
-                setTours([]);
-                currentPageRef.current = 0;
-                setFetching(true);
-              }}
-              className="clear-filters-button"
+              onClick={clearAllFilters}
+              className="buttons"
             >
               Очистить все фильтры
             </button>
           </div>
         </aside>
       </div>
+
+      {isCityModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsCityModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">Выберите город</h3>
+              <button className="modal-close" onClick={() => setIsCityModalOpen(false)}>×</button>
+            </div>
+            
+            <div className="modal-search">
+              <input
+                type="text"
+                placeholder="Поиск города..."
+                value={citySearchTerm}
+                onChange={(e) => setCitySearchTerm(e.target.value)}
+                className="modal-search-input"
+                autoFocus
+              />
+            </div>
+            
+            <div className="modal-cities-list">
+              {filteredCities.length > 0 ? (
+                filteredCities.map(city => (
+                  <div
+                    key={city.value}
+                    className={`modal-city-item ${searchDirection === city.value ? 'selected' : ''}`}
+                    onClick={() => handleDirectionSelect(city.value)}
+                  >
+                    <span className="modal-city-name">{city.label}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="modal-no-results">
+                  Ничего не найдено
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

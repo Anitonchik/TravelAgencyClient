@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { CITIES } from "../../constants/cities";
 import './Tour.css';
 
 export default function TourCard({tour, onClick}) {
@@ -9,6 +10,8 @@ export default function TourCard({tour, onClick}) {
   tour.dateTo = newDateTo;
   const durationPrice = `${tour.price} RUB / ${tour.duration} дней`;
   const dates = `${tour.dateFrom} - ${tour.dateTo}`;
+
+  //console.log(tour);
 
 
   return (
@@ -22,7 +25,7 @@ export default function TourCard({tour, onClick}) {
         <div className="d-flex flex-column gap-3">
           <h3 className="title">{tour.name}</h3>
           <div className="d-flex flex-column gap-2">
-            <p className="direction">{tour.direction}</p>
+            <p className="direction"> {CITIES.find(city => city.value === tour.direction)?.label || "Не указан"}</p>
             <p className="description">{tour.description}</p>
           </div>
         </div>
