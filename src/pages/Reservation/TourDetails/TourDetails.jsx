@@ -89,7 +89,7 @@ export default function TourDetailsPage() {
                   <p className="info-label">
                     Клиент
                   </p>
-                  <p className="info-value">
+                  <p className="info-fio-value">
                     {client?.lastName + " " + client?.firstName + " " + client?.surName || "Имя клиента"}
                   </p>
                 </div>
@@ -104,8 +104,7 @@ export default function TourDetailsPage() {
           </span>
         </div>
 
-        {/* Single photo */}
-        <div className="photo-container">
+        <div className="photo-container tour-photo" >
           <img
             src={tour.image}
             alt={tour.name}

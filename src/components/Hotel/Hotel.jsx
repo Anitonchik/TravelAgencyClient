@@ -21,7 +21,7 @@ export default function HotelCard({hotel, selected, onSelect}) {
     onClick={onSelect}
     className={`hotel-card ${selected ? "hotel-card-selected" : "hotel-card-default"}`}
     >
-      <img src={hotel.imageUrl} alt={hotel.name} className="image" />
+      <img src={hotel.image} alt={hotel.name} className="image" />
 
       <div className="info">
         <div>

@@ -6,12 +6,10 @@ import './Tour.css';
 export default function TourCard({tour, onClick}) {
   let newDateFrom = new Date(tour.dateFrom).toLocaleDateString();
   let newDateTo = new Date(tour.dateTo).toLocaleDateString();
-  tour.dateFrom = newDateFrom;
-  tour.dateTo = newDateTo;
   const durationPrice = `${tour.price} RUB / ${tour.duration} дней`;
-  const dates = `${tour.dateFrom} - ${tour.dateTo}`;
+  const dates = `${newDateFrom} - ${newDateTo}`;
 
-  //console.log(tour);
+  console.log(tour.dateFrom);
 
 
   return (

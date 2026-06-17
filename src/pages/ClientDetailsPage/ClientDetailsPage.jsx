@@ -21,7 +21,7 @@ export default function ClientDetails() {
   useEffect(() => {
 
     if (location.state?.client) {
-        console.log("Полученные данные клиента:", location.state.client);
+        //console.log("Полученные данные клиента:", location.state.client);
         setClient(location.state.client);
         setLoading(false);
     } else {

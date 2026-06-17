@@ -20,7 +20,6 @@ export default function Login() {
         login: login,
         password: password,
       });
-      console.log("Ответ от сервера:", userDt);
 
       localStorage.setItem('userId', userDt.id);
       localStorage.setItem('token', userDt.jwt);

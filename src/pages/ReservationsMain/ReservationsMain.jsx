@@ -24,7 +24,7 @@ export default function ReservationsMain() {
     EXPECTATION: 0,
     CANCELED: 0
   });
-  const pageSize = 2;
+  const pageSize = 10;
 
   const [filter, setFilter] = useState("ALL");
   const [selectedClient, setSelectedClient] = useState(null);
@@ -39,7 +39,7 @@ export default function ReservationsMain() {
   const [clientsPage, setClientsPage] = useState(0);
   const [clientsTotalPages, setClientsTotalPages] = useState(0);
   const [clientsTotalElements, setClientsTotalElements] = useState(0);
-  const clientsPageSize = 5;
+  const clientsPageSize = 20;
   
   const searchTimeoutRef = useRef(null);
   const clientsSearchTimeoutRef = useRef(null);

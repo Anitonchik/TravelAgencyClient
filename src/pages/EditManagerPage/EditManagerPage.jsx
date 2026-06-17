@@ -8,7 +8,6 @@ export default function EditManagerPage() {
   const location = useLocation();
   const managerApi = useMemo(() => new Manager(), []);
   const manager = location.state?.manager;
-  console.log("Редактируемый менеджер:", manager);
 
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
@@ -34,7 +33,7 @@ export default function EditManagerPage() {
     surName: manager?.surName || "",
     birthDate: formatDateForInput(manager?.birthDate) || "",
     email: manager?.email || "",
-    login: manager?.login || "",
+    //login: manager?.login || "",
     password: "",
     confirmPassword: "",
   });
@@ -120,7 +119,7 @@ export default function EditManagerPage() {
       case "surName": return validateSurName(value);
       case "birthDate": return validateBirthDate(value);
       case "email": return validateEmail(value);
-      case "login": return validateLogin(value);
+      // case "login": return validateLogin(value);
       case "password": return validatePassword(value);
       case "confirmPassword": return validateConfirmPassword(value);
       default: return "";
@@ -148,7 +147,7 @@ export default function EditManagerPage() {
   };
 
   const isFormValid = () => {
-    const fieldsToValidate = ["lastName", "firstName", "surName", "birthDate", "email", "login"];
+    const fieldsToValidate = ["lastName", "firstName", "surName", "birthDate", "email"];
     
     if (!manager || form.password) {
       fieldsToValidate.push("password");
@@ -177,7 +176,7 @@ export default function EditManagerPage() {
       surName: true,
       birthDate: true,
       email: true,
-      login: true,
+      // login: true,
     };
     
     if (!manager || form.password) {
@@ -200,7 +199,7 @@ export default function EditManagerPage() {
         surName: form.surName.trim(),
         birthDate: new Date(form.birthDate),
         email: form.email.trim().toLowerCase(),
-        login: form.login.trim(),
+        // login: form.login.trim(),
       };
       
       if (form.password) {
@@ -212,6 +211,7 @@ export default function EditManagerPage() {
     
       if (manager) {
         await managerApi.update(managerData, manager.id);
+
         setModalMessage("Данные менеджера успешно обновлены");
       } else {
         await managerApi.create(managerData);
@@ -350,7 +350,7 @@ export default function EditManagerPage() {
             </div>
           </div>
 
-          <div className="form-row">
+          {/*<div className="form-row">
             <div className="form-field">
               <label className="form-label">Логин:</label>
               <input
@@ -369,7 +369,7 @@ export default function EditManagerPage() {
             </div>
             <div className="form-field">
             </div>
-          </div>
+          </div>*/}
 
           <div className="form-row">
             <div className="form-field">

@@ -203,7 +203,7 @@
   text-align: right;
 }
 
-.info-value {
+.info-fio-value {
   font-weight: 600;
 }
 
@@ -352,7 +352,7 @@
   margin-bottom: 4px;
 }
 
-.info-value {
+.info-fio-value {
   font-size: 14px;
   font-weight: 500;
   color: #282828;
@@ -367,4 +367,18 @@
   line-height: 1.5;
   color: #555;
   overflow-wrap: break-word;
+}
+
+.photo-container {
+  width: 100%;
+  max-width: 600px; 
+  margin: 0 auto;
+}
+
+.tour-photo {
+  width: 100%;
+  height: 300px;
+  object-fit: cover; 
+  border-radius: 18px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

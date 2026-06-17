@@ -69,26 +69,42 @@ export default function ReservationDetails() {
     });
   };
 
-  const handleCancelReservation = async () => {
-    console.log(reservation)
+  const handleCancelReservation = async (flag) => {
     
-    const reservationData = {
-      id: reservation.id,
-      reservationDate: reservation.reservationDate,
-      dateOfIssueOfTheVoucher: new Date().toISOString(),
-      managerId: reservation.manager.id,
-      clientId: reservation.client.id,
-      tourId: reservation.tour.id,
-      flightToId: reservation.flightTo.id,
-      flightFromId: reservation.flightFrom.id,
-      hotelId: reservation.hotel.id,
-      indicateTransfer: false,
-      indicateInsurance: false,
-      paymentType: "CASH",
-      insuranceType: "NO"
-    };
-    await reservationApi.cancel(reservationData);
-    navigate("/");
+    let reservationData;
+
+    if (flag) {
+      reservationData = {
+        id: reservation.id,
+        reservationDate: reservation.reservationDate,
+        dateOfIssueOfTheVoucher: new Date().toISOString(),
+        managerId: reservation.manager.id,
+        clientId: reservation.client.id,
+        tourId: reservation.tour.id,
+        flightToId: reservation.flightTo.id,
+        flightFromId: reservation.flightFrom.id,
+        hotelId: reservation.hotel.id,
+        indicateTransfer: false,
+        indicateInsurance: false,
+        paymentType: "CASH",
+        insuranceType: "NO"
+      };
+      await reservationApi.cancel(reservationData);
+      navigate("/");
+    } else {
+      
+      reservationData = {
+        id: reservation.id,
+        reservationDate: reservation.reservationDate,
+        managerId: reservation.manager.id,
+        clientId: reservation.client.id,
+        tourId: reservation.tour.id,
+      }
+      await reservationApi.cancelInProcess(reservationData);
+      navigate("/");
+    }
+
+    
   }
 
   const handleBack = () => {
@@ -354,7 +370,7 @@ export default function ReservationDetails() {
             <div className = "d-flex gap-3">
               <button
                 type="button"
-                onClick={handleCancelReservation}
+                onClick={() => handleCancelReservation(true)}
                 className="button-cancel-res"
               >
                 Отменить бронирование
@@ -368,13 +384,22 @@ export default function ReservationDetails() {
               </button>
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={handleContinueReservation}
-              className="button-back"
-            >
-              Продолжить бронирование
-            </button>
+            <div className = "d-flex gap-3">
+              <button
+                type="button"
+                onClick={() => handleCancelReservation(false)}
+                className="button-cancel-res"
+              >
+                Отменить бронирование
+              </button>
+              <button
+                type="button"
+                onClick={handleContinueReservation}
+                className="button-back"
+              >
+                Продолжить бронирование
+              </button>
+            </div>
           )}
         </div>
       </main>
